@@ -1,0 +1,23 @@
+# sbt specific
+.cache
+.history
+.lib/
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+
+# IDE
+.idea
+.bloop
+.metals
+
+# Git secret
+.gitsecret/keys/random_seed
+!*.secret
+secrets-env.sh
+*secrets.yaml
+/.bsp/
+.DS_STORE
