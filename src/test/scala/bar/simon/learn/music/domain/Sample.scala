@@ -1,6 +1,8 @@
 package bar.simon.learn.music.domain
 
-import bar.simon.learn.music.domain.Alteration._
+import bar.simon.learn.music.domain.music.Alteration._
+import bar.simon.learn.music.domain.music.Interval._
+import bar.simon.learn.music.domain.music.{Chord, Note, NoteName}
 
 object Sample {
   val A: Note           = Note(NoteName.A)
@@ -36,4 +38,46 @@ object Sample {
   val GMaj: Chord = Chord.major(G)
   val AMin: Chord = Chord.minor(A)
   val BDim: Chord = Chord.dim(B)
+
+  val intervals = List(
+    (A, root, A),
+    (A, minorSecond, BFlat),
+    (A, majorSecond, B),
+    (A, minorThird, C),
+    (A, majorThird, CSharp),
+    (A, fourth, D),
+    (A, sharpFourth, DSharp),
+    (A, flatFifth, EFlat),
+    (A, fifth, E),
+    (A, minorSixth, F),
+    (A, majorSixth, FSharp),
+    (A, minorSeventh, G),
+    (A, majorSeventh, GSharp),
+    (EFlat, root, EFlat),
+    (EFlat, minorSecond, FFlat),
+    (EFlat, majorSecond, F),
+    (EFlat, minorThird, GFlat),
+    (EFlat, majorThird, G),
+    (EFlat, fourth, AFlat.copy(octave = 2)),
+    (EFlat, sharpFourth, A.copy(octave = 2)),
+    (EFlat, flatFifth, BFlatFlat.copy(octave = 2)),
+    (EFlat, fifth, BFlat.copy(octave = 2)),
+    (EFlat, minorSixth, CFlat.copy(octave = 2)),
+    (EFlat, majorSixth, C.copy(octave = 2)),
+    (EFlat, minorSeventh, DFlat.copy(octave = 2)),
+    (EFlat, majorSeventh, D.copy(octave = 2)),
+    (B, root, B),
+    (B, minorSecond, C),
+    (B, majorSecond, CSharp),
+    (B, minorThird, D),
+    (B, majorThird, DSharp),
+    (B, fourth, E),
+    (B, sharpFourth, ESharp),
+    (B, flatFifth, F),
+    (B, fifth, FSharp),
+    (B, minorSixth, G),
+    (B, majorSixth, GSharp),
+    (B, minorSeventh, A.copy(octave = 2)),
+    (B, majorSeventh, ASharp.copy(octave = 2))
+  )
 }

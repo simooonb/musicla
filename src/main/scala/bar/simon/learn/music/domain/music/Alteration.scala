@@ -1,4 +1,4 @@
-package bar.simon.learn.music.domain
+package bar.simon.learn.music.domain.music
 
 sealed trait Alteration {
   val label: String

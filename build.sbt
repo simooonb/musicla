@@ -1,4 +1,4 @@
-name := "learn-music"
+name := "musicla"
 
 version := "0.1"
 

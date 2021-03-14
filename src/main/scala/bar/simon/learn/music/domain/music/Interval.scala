@@ -1,4 +1,4 @@
-package bar.simon.learn.music.domain
+package bar.simon.learn.music.domain.music
 
 final case class Interval(semiToneLength: Int, naturalNoteOffset: Int, label: String) {
   val toneLength: Double = semiToneLength / 2d
@@ -6,7 +6,24 @@ final case class Interval(semiToneLength: Int, naturalNoteOffset: Int, label: St
 
 object Interval {
 
-  def get(label: String): Option[Interval] = allByLabel.get(label)
+  def between(left: Note, right: Note): Option[Interval] = {
+    val semiToneLength = math.abs(left.semiToneValue - right.semiToneValue)
+    val noteOffset     = math.abs(left.noteIndex - right.noteIndex)
+
+    getByToneAndOffset(semiToneLength, noteOffset).headOption
+  }
+
+  def get(label: String): Option[Interval] =
+    allByLabel.get(label)
+
+  def getBySemiToneLength(length: Int): List[Interval] =
+    all.filter(_.semiToneLength == length)
+
+  def getByNaturalNoteOffset(offset: Int): List[Interval] =
+    all.filter(_.naturalNoteOffset == offset)
+
+  def getByToneAndOffset(semiToneLength: Int, offset: Int): List[Interval] =
+    getBySemiToneLength(semiToneLength) intersect getByNaturalNoteOffset(offset)
 
   val root: Interval              = Interval(0, 0, "1")
   val minorSecond: Interval       = Interval(1, 1, "b2")
@@ -34,6 +51,7 @@ object Interval {
     minorThird,
     majorThird,
     fourth,
+    sharpFourth,
     flatFifth,
     fifth,
     minorSixth,

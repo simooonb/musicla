@@ -1,9 +1,10 @@
 package bar.simon.learn.music.domain
 
-import bar.simon.learn.music.domain.Interval._
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import Sample._
+import bar.simon.learn.music.domain.music.Interval._
+import bar.simon.learn.music.domain.music._
 
 final class ScaleSpec extends AnyWordSpec with Matchers {
 

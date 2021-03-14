@@ -1,15 +1,18 @@
-package bar.simon.learn.music.domain
+package bar.simon.learn.music.domain.music
 
-import bar.simon.learn.music.domain.Alteration._
+import bar.simon.learn.music.domain.music.Alteration._
+import org.scalacheck.Gen
 
 final case class Note(
     name: NoteName,
     alteration: Option[Alteration] = None,
     octave: Int = 1
 ) {
-  val semiToneOctave: Int = (octave - 1) * 12
-  val semiToneValue: Int  = name.semiToneValue + alteration.map(_.semiToneValue).getOrElse(0) + semiToneOctave
-  val label: String       = s"$name${alteration.map(_.label).getOrElse("")}"
+  private val semiToneOctave: Int = (octave - 1) * 12
+
+  val noteIndex: Int     = name.noteIndex + (octave - 1) * 7
+  val semiToneValue: Int = name.semiToneValue + alteration.map(_.semiToneValue).getOrElse(0) + semiToneOctave
+  val label: String      = s"$name${alteration.map(_.label).getOrElse("")}"
 
   def add(interval: Interval): Note = {
     val nextNameIndex   = interval.naturalNoteOffset + NoteName.all.indexOf(name)
@@ -27,4 +30,12 @@ final case class Note(
     }
   }
 
+}
+
+object Note {
+  def random: Gen[Note] =
+    for {
+      name       <- Gen.oneOf(NoteName.all)
+      alteration <- Gen.oneOf(List(Some(Sharp), Some(Flat), None))
+    } yield Note(name, alteration)
 }
