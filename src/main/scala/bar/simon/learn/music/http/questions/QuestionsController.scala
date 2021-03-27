@@ -1,25 +1,29 @@
 package bar.simon.learn.music.http.questions
 
+import bar.simon.learn.music.domain.questions.QuestionError.NegativeNumberOfQuestions
 import bar.simon.learn.music.http.Controller
 import bar.simon.learn.music.usecase.AskQuestionUseCase
+import cats.effect.{Concurrent, ContextShift, Sync, Timer}
+import cats.implicits._
 import org.http4s.HttpRoutes
-import zio.RIO
-import zio.logging.{Logging, log}
+import sttp.tapir.server.http4s.Http4sServerInterpreter.toRouteRecoverErrors
 
-final class QuestionsController(askQuestionUseCase: AskQuestionUseCase) extends Controller with QuestionsAPI {
+final class QuestionsController[F[_]](askQuestionUseCase: AskQuestionUseCase)(implicit
+    timer: Timer[F],
+    cs: ContextShift[F],
+    F: Sync[F],
+    C: Concurrent[F]
+) extends Controller[F]
+    with QuestionsAPI {
 
-  override def routes: HttpRoutes[RIO[Logging, *]] =
+  override def routes: HttpRoutes[F] =
     askRandomQuestionRoute
 
-  private def askRandomQuestionRoute: HttpRoutes[RIO[Logging, *]] =
-    askRandomQuestionEndpoint.toRoutes { _ =>
-      askQuestionUseCase.askRandom(1).map(_.head).tapBoth(
-        error =>
-          log.error(
-            s"Tried to ask a random question but error ${error.getClass.getSimpleName} occurred."
-          ),
-        _ => log.info(s"Asked a random question.")
-      )
+  private def askRandomQuestionRoute: HttpRoutes[F] =
+    toRouteRecoverErrors(askRandomQuestionEndpoint) {
+      case Some(count) if count > 0 => F.delay(askQuestionUseCase.askRandom(count))
+      case None                     => F.delay(askQuestionUseCase.askRandom(1))
+      case _                        => F.raiseError(NegativeNumberOfQuestions())
     }
 
 }

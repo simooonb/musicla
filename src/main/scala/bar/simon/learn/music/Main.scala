@@ -3,22 +3,25 @@ package bar.simon.learn.music
 import java.util.Locale
 
 import bar.simon.learn.music.http.ServerBuilder
-import com.typesafe.scalalogging.StrictLogging
-import org.slf4j.Logger
-import zio._
+import cats.effect._
+import org.slf4j.LoggerFactory
 
-object Main extends App with StrictLogging {
+import scala.concurrent.ExecutionContext
+import scala.concurrent.ExecutionContext.global
+
+object Main extends IOApp {
   Locale.setDefault(new Locale("en", "US"))
 
-  implicit final val slf4jLogger: Logger = logger.underlying
+  def run(args: List[String]): IO[ExitCode] = {
+    implicit val ec: ExecutionContext = global
 
-  override def run(args: List[String]): URIO[ZEnv, ExitCode] =
-    ServerBuilder(slf4jLogger).resource
-      .use(_ => Task.never)
-      .tapError(logFailure)
-      .exitCode
+    val logger  = LoggerFactory.getLogger(getClass)
+    val blocker = Blocker.liftExecutionContext(global)
 
-  def logFailure(error: Throwable): UIO[ExitCode] =
-    UIO.succeed(logger.error(s"Error encountered in the server: ${error.getMessage}")).as(ExitCode.failure)
+    new ServerBuilder[IO](logger, blocker)
+      .resource
+      .use(_ => IO.never)
+      .as(ExitCode.Success)
+  }
 
 }

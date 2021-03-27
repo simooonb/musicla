@@ -4,6 +4,10 @@ version := "0.1"
 
 scalaVersion := "2.13.5"
 
+scalacOptions ++= Seq(
+  "-Xfatal-warnings"
+)
+
 addCompilerPlugin("org.typelevel" % "kind-projector" % "0.11.3" cross CrossVersion.full)
 
 libraryDependencies ++= Seq(
@@ -19,13 +23,11 @@ libraryDependencies ++= Seq(
   "org.typelevel"               %% "kind-projector"           % "0.10.3",
   "com.lihaoyi"                 %% "pprint"                   % "0.6.2",
   "com.github.pureconfig"       %% "pureconfig"               % "0.14.1",
+  "com.github.pureconfig"       %% "pureconfig-cats-effect"   % "0.14.1",
   "eu.timepit"                  %% "refined-pureconfig"       % "0.9.21",
   "eu.timepit"                  %% "refined"                  % "0.9.21",
   "ch.qos.logback"               % "logback-classic"          % "1.2.3",
   "com.typesafe.scala-logging"  %% "scala-logging"            % "3.9.2",
-  "dev.zio"                     %% "zio"                      % "1.0.5",
-  "dev.zio"                     %% "zio-interop-cats"         % "2.3.1.0",
-  "dev.zio"                     %% "zio-logging"              % "0.5.7",
   "org.http4s"                  %% "http4s-dsl"               % "0.21.0",
   "org.http4s"                  %% "http4s-circe"             % "0.21.0",
   "org.http4s"                  %% "http4s-jetty"             % "0.21.0",

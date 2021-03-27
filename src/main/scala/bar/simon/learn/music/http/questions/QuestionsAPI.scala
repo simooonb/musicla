@@ -1,23 +1,31 @@
 package bar.simon.learn.music.http.questions
 
 import bar.simon.learn.music.domain.questions.Question
+import bar.simon.learn.music.domain.questions.QuestionError.NegativeNumberOfQuestions
 import sttp.model.StatusCode._
-import sttp.tapir.json.circe.jsonBody
 import sttp.tapir.generic.auto._
+import sttp.tapir.json.circe.jsonBody
 import sttp.tapir.{endpoint, statusCode, _}
 
-trait QuestionsAPI extends QuestionsCodecs {
+trait QuestionsAPI extends QuestionsCodecs with QuestionErrorTapirCodecs {
 
   import QuestionsAPIExamples._
 
   val endpoints: List[Endpoint[_, _, _, _]] =
     List(askRandomQuestionEndpoint)
 
-  def askRandomQuestionEndpoint =
+  def askRandomQuestionEndpoint: Endpoint[Option[Int], NegativeNumberOfQuestions, List[Question], Any] =
     endpoint
-      .summary("Ask a random music question.")
       .get
+      .name("Ask random questions")
+      .description("Ask random music questions.")
       .in("api" / "questions" / "random")
+      .in(query[Option[Int]](name = "number"))
       .out(statusCode(Ok))
-      .out(jsonBody[Question].example(scaleQuestion))
+      .out(jsonBody[List[Question]].example(scaleQuestions))
+      .errorOut(
+        oneOf(
+          statusMapping(BadRequest, anyJsonBody[NegativeNumberOfQuestions].example(negativeNumberOfQuestions))
+        )
+      )
 }
