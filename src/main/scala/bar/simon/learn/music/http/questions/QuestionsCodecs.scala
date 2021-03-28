@@ -2,6 +2,7 @@ package bar.simon.learn.music.http.questions
 
 import bar.simon.learn.music.domain.music.{Alteration, Chord, Note, NoteName, Scale}
 import bar.simon.learn.music.domain.questions.Question
+import bar.simon.learn.music.domain.questions.Question._
 import io.circe._
 import io.circe.generic.extras.Configuration
 import io.circe.generic.extras.semiauto._
@@ -12,7 +13,7 @@ trait QuestionsCodecs {
 
   case class NoteNameMapping(name: String)
   case class AlterationMapping(name: String)
-  case class QuestionMapping(`type`: String, scale: Option[Scale], notes: Option[List[Note]] = None)
+  case class QuestionMapping(`type`: String, scale: Option[Scale], notes: Option[List[Note]] = None, answer: String)
 
   implicit val customConfig: Configuration =
     Configuration.default.withDiscriminator("type")
@@ -58,19 +59,17 @@ trait QuestionsCodecs {
   }
 
   implicit val questionDecoder: Decoder[Question] = deriveConfiguredDecoder[QuestionMapping].emapTry {
-    case QuestionMapping("ScaleNotes", Some(scale), None)         => Success(Question.ScaleNotes(scale))
-    case QuestionMapping("ScaleFormula", Some(scale), None)       => Success(Question.ScaleFormula(scale))
-    case QuestionMapping("ScaleHarmonization", Some(scale), None) => Success(Question.ScaleHarmonization(scale))
-    case QuestionMapping("IntervalBetweenNotes", None, Some(List(left, right))) =>
-      Success(Question.IntervalBetweenNotes(left, right))
-    case other => Failure(DecodingFailure(s"failed to decode $other", Nil))
+    case QuestionMapping("ScaleNotes", Some(scale), None, _)                => Success(ScaleNotes(scale))
+    case QuestionMapping("ScaleFormula", Some(scale), None, _)              => Success(ScaleFormula(scale))
+    case QuestionMapping("ScaleHarmonization", Some(scale), None, _)        => Success(ScaleHarmonization(scale))
+    case QuestionMapping("IntervalBetweenNotes", None, Some(List(l, r)), _) => Success(IntervalBetweenNotes(l, r))
+    case other                                                              => Failure(DecodingFailure(s"failed to decode $other", Nil))
   }
 
   implicit val questionEncoder: Encoder[Question] = deriveConfiguredEncoder[QuestionMapping].contramap {
-    case Question.ScaleNotes(scale)         => QuestionMapping("ScaleNotes", Some(scale))
-    case Question.ScaleFormula(scale)       => QuestionMapping("ScaleFormula", Some(scale))
-    case Question.ScaleHarmonization(scale) => QuestionMapping("ScaleHarmonization", Some(scale))
-    case Question.IntervalBetweenNotes(left, right) =>
-      QuestionMapping("IntervalBetweenNotes", None, Some(List(left, right)))
+    case q @ ScaleNotes(scale)          => QuestionMapping("ScaleNotes", Some(scale), None, q.answer)
+    case q @ ScaleFormula(scale)        => QuestionMapping("ScaleFormula", Some(scale), None, q.answer)
+    case q @ ScaleHarmonization(scale)  => QuestionMapping("ScaleHarmonization", Some(scale), None, q.answer)
+    case q @ IntervalBetweenNotes(l, r) => QuestionMapping("IntervalBetweenNotes", None, Some(List(l, r)), q.answer)
   }
 }
