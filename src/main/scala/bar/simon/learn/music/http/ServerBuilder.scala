@@ -13,17 +13,19 @@ import org.http4s.server.jetty._
 import org.http4s.server.{Router, Server}
 import org.scalacheck.Gen
 import org.scalacheck.rng.Seed
-import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
-final class ServerBuilder[F[_]](logger: Logger, blocker: Blocker)(implicit
+final class ServerBuilder[F[_]](implicit
     timer: Timer[F],
     cs: ContextShift[F],
     F: Sync[F],
     ce: ConcurrentEffect[F]
 ) {
+  private val logger = LoggerFactory.getLogger(getClass)
+
   def resource: Resource[F, Server[F]] =
     for {
-      serverConfiguration <- ServerConfiguration.load(blocker)
+      serverConfiguration <- ServerConfiguration.load
       _      = logger.info(append("configuration", "http"), serverConfiguration.show)
       router = createRouter()
       server <- createServer(serverConfiguration, router)

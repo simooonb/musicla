@@ -2,8 +2,11 @@ package bar.simon.learn.music.domain
 
 import bar.simon.learn.music.domain.music.Alteration._
 import bar.simon.learn.music.domain.music.Interval._
-import bar.simon.learn.music.domain.music.{Chord, Note, NoteName}
+import bar.simon.learn.music.domain.music.{Chord, Note, NoteName, Scale}
+import bar.simon.learn.music.domain.questions.Question
+import bar.simon.learn.music.domain.questions.Question._
 
+// TODO: split into multiple sample files
 object Sample {
   val A: Note           = Note(NoteName.A)
   val ASharp: Note      = Note(NoteName.A, Some(Sharp))
@@ -80,4 +83,27 @@ object Sample {
     (B, minorSeventh, A.copy(octave = 2)),
     (B, majorSeventh, ASharp.copy(octave = 2))
   )
+
+  // C D E F G A B
+  val majorC: Scale = Scale.major(C)
+  // A# B# C## D# E# F## G##
+  val majorASharp: Scale = Scale.major(ASharp)
+  // Eb F G Ab Bb C D
+  val majorEFlat: Scale = Scale.major(EFlat)
+  // Fb Gb Ab Bbb Cb Db Eb
+  val majorFFlat: Scale = Scale.major(FFlat)
+
+  // A B C D E F G
+  val minorA: Scale = Scale.minor(A)
+  // E F# G A B C D
+  val minorE: Scale = Scale.minor(E)
+  // D# E# F# G# A# B C#
+  val minorDSharp: Scale = Scale.minor(DSharp)
+  // Bb C Db Eb F Gb Ab
+  val minorBFlat: Scale = Scale.minor(BFlat)
+
+  val scaleNotesQuestion: Question         = ScaleNotes(minorA)
+  val scaleFormulaQuestion: Question       = ScaleFormula(majorEFlat)
+  val scaleHarmonizationQuestion: Question = ScaleFormula(majorC)
+  val notesIntervalQuestion: Question      = IntervalBetweenNotes(E, G)
 }

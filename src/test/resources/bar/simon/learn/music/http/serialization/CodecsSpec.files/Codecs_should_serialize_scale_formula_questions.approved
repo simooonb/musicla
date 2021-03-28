@@ -1,0 +1,12 @@
+{
+  "type" : "ScaleFormula",
+  "scale" : {
+    "root" : {
+      "name" : "E",
+      "alteration" : "Flat",
+      "octave" : 1
+    },
+    "formula" : "1 2 3 4 5 6 7"
+  },
+  "notes" : null
+}

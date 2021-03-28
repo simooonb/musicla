@@ -15,10 +15,7 @@ object Main extends IOApp {
   def run(args: List[String]): IO[ExitCode] = {
     implicit val ec: ExecutionContext = global
 
-    val logger  = LoggerFactory.getLogger(getClass)
-    val blocker = Blocker.liftExecutionContext(global)
-
-    new ServerBuilder[IO](logger, blocker)
+    new ServerBuilder[IO]
       .resource
       .use(_ => IO.never)
       .as(ExitCode.Success)

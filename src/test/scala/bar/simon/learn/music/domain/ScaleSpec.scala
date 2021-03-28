@@ -4,20 +4,10 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import Sample._
 import bar.simon.learn.music.domain.music.Interval._
-import bar.simon.learn.music.domain.music._
 
 final class ScaleSpec extends AnyWordSpec with Matchers {
 
   "Major scale" should {
-    // C D E F G A B
-    val majorC = Scale.major(C)
-    // A# B# C## D# E# F## G##
-    val majorASharp = Scale.major(ASharp)
-    // Eb F G Ab Bb C D
-    val majorEFlat = Scale.major(EFlat)
-    // Fb Gb Ab Bbb Cb Db Eb
-    val majorFFlat = Scale.major(FFlat)
-
     "have the right intervals" in {
       val intervalsExpected = List(root, majorSecond, majorThird, fourth, fifth, majorSixth, majorSeventh)
       majorC.intervals should contain theSameElementsInOrderAs intervalsExpected
@@ -43,15 +33,6 @@ final class ScaleSpec extends AnyWordSpec with Matchers {
   }
 
   "Minor scale" should {
-    // A B C D E F G
-    val minorA = Scale.minor(A)
-    // E F# G A B C D
-    val minorE = Scale.minor(E)
-    // D# E# F# G# A# B C#
-    val minorDSharp = Scale.minor(DSharp)
-    // Bb C Db Eb F Gb Ab
-    val minorBFlat = Scale.minor(BFlat)
-
     "have the right intervals" in {
       val intervalsExpected = List(root, majorSecond, minorThird, fourth, fifth, minorSixth, minorSeventh)
       minorA.intervals should contain theSameElementsInOrderAs intervalsExpected

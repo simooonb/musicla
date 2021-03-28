@@ -8,10 +8,19 @@ final class AskQuestionUseCase(parameters: Gen.Parameters, initialSeed: Seed) {
 
   var seed: Seed = initialSeed
 
-  def askRandom(numberOfQuestions: Int): List[Question] = {
-      seed = seed.next
-      Gen
-        .listOfN(numberOfQuestions, Question.randomQuestion)
-        .pureApply(parameters, seed)
-    }
+  def anyRandom(numberOfQuestions: Int): List[Question] =
+    any(numberOfQuestions, Question.randomQuestion)
+
+  def anyScale(numberOfQuestions: Int): List[Question] =
+    any(numberOfQuestions, Question.randomScaleQuestion)
+
+  def anyInterval(numberOfQuestions: Int): List[Question] =
+    any(numberOfQuestions, Question.randomIntervalQuestion)
+
+  private def any(numberOfQuestions: Int, questionGen: Gen[Question]): List[Question] = {
+    seed = seed.next
+    Gen
+      .listOfN(numberOfQuestions, questionGen)
+      .pureApply(parameters, seed)
+  }
 }

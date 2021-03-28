@@ -1,5 +1,6 @@
 package bar.simon.learn.music.http.questions
 
+import bar.simon.learn.music.domain.questions.Question
 import bar.simon.learn.music.domain.questions.QuestionError.NegativeNumberOfQuestions
 import bar.simon.learn.music.http.Controller
 import bar.simon.learn.music.usecase.AskQuestionUseCase
@@ -17,12 +18,21 @@ final class QuestionsController[F[_]](askQuestionUseCase: AskQuestionUseCase)(im
     with QuestionsAPI {
 
   override def routes: HttpRoutes[F] =
-    askRandomQuestionRoute
+    randomAnyQuestionRoute <+> randomScaleQuestionRoute <+> randomIntervalQuestionRoute
 
-  private def askRandomQuestionRoute: HttpRoutes[F] =
-    toRouteRecoverErrors(askRandomQuestionEndpoint) {
-      case Some(count) if count > 0 => F.delay(askQuestionUseCase.askRandom(count))
-      case None                     => F.delay(askQuestionUseCase.askRandom(1))
+  private def randomAnyQuestionRoute: HttpRoutes[F] =
+    randomQuestionRoute(randomAnyQuestionEndpoint, askQuestionUseCase.anyRandom)
+
+  private def randomScaleQuestionRoute: HttpRoutes[F] =
+    randomQuestionRoute(randomScaleQuestionEndpoint, askQuestionUseCase.anyScale)
+
+  private def randomIntervalQuestionRoute: HttpRoutes[F] =
+    randomQuestionRoute(randomIntervalQuestionEndpoint, askQuestionUseCase.anyInterval)
+
+  private def randomQuestionRoute(endpoint: QuestionEndpoint, questions: Int => List[Question]): HttpRoutes[F] =
+    toRouteRecoverErrors(endpoint) {
+      case Some(count) if count > 0 => F.delay(questions(count))
+      case None                     => F.delay(questions(1))
       case _                        => F.raiseError(NegativeNumberOfQuestions())
     }
 

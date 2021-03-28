@@ -1,0 +1,19 @@
+<!-- https://www.playframework.com/documentation/latest/SettingsLogger -->
+<configuration>
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%date{ISO8601} %-5level [%thread] [%X{sourceThread}] %logger{20} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- Application -->
+<!--  <logger name="bar.simon" level="DEBUG" additivity="false">-->
+<!--    <appender-ref ref="STDOUT" />-->
+<!--  </logger>-->
+
+  <root level="INFO">
+    <appender-ref ref="STDOUT" />
+  </root>
+
+</configuration>

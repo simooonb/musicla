@@ -18,8 +18,10 @@ final case class ServerConfiguration(
 
 object ServerConfiguration {
 
-  def load[F[_]](blocker: Blocker)(implicit F: Sync[F], cs: ContextShift[F]): Resource[F, ServerConfiguration] =
-    Resource.liftF(F.fromEither(ConfigSource.default.load[ServerConfiguration].leftMap(ConfigReaderException(_))))
+  def load[F[_]](implicit F: Sync[F]): Resource[F, ServerConfiguration] = {
+    val config = F  .fromEither(ConfigSource.default.load[ServerConfiguration].leftMap(ConfigReaderException(_)))
+    Resource.liftF(config)
+  }
 
   implicit final val show: Show[ServerConfiguration] = pprint.apply(_).render
 }
