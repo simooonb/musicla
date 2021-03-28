@@ -40,7 +40,7 @@ object Sample {
   val FMaj: Chord = Chord.major(F)
   val GMaj: Chord = Chord.major(G)
   val AMin: Chord = Chord.minor(A)
-  val BDim: Chord = Chord.dim(B)
+  val BDim: Chord = Chord.diminished(B)
 
   val intervals = List(
     (A, root, A),
@@ -104,6 +104,6 @@ object Sample {
 
   val scaleNotesQuestion: Question         = ScaleNotes(minorA)
   val scaleFormulaQuestion: Question       = ScaleFormula(majorEFlat)
-  val scaleHarmonizationQuestion: Question = ScaleFormula(majorC)
+  val scaleHarmonizationQuestion: Question = ScaleHarmonization(majorC)
   val notesIntervalQuestion: Question      = IntervalBetweenNotes(E, G)
 }

@@ -12,15 +12,27 @@ import scala.util.{Failure, Success}
 trait QuestionsCodecs {
 
   case class NoteNameMapping(name: String)
+  case class NoteMapping(name: String)
+  case class ChordMapping(chord: String)
   case class AlterationMapping(name: String)
   case class QuestionMapping(`type`: String, scale: Option[Scale], notes: Option[List[Note]] = None, answer: String)
 
   implicit val customConfig: Configuration =
     Configuration.default.withDiscriminator("type")
 
-  implicit val noteCodec: Codec[Note]   = deriveConfiguredCodec
-  implicit val chordCodec: Codec[Chord] = deriveConfiguredCodec
+  implicit val noteEncoder: Encoder[Note] = deriveUnwrappedEncoder[NoteMapping].contramap { note =>
+    NoteMapping(note.label)
+  }
+
+  implicit val noteDecoder: Decoder[Note] = deriveConfiguredDecoder
+
   implicit val scaleCodec: Codec[Scale] = deriveConfiguredCodec
+
+  implicit val chordEncoder: Encoder[Chord] = deriveUnwrappedEncoder[ChordMapping].contramap { chord =>
+    ChordMapping(s"${chord.root.label} ${chord.name}")
+  }
+
+  implicit val chordDecoder: Decoder[Chord] = deriveConfiguredDecoder
 
   implicit val noteNameDecoder: Decoder[NoteName] = deriveUnwrappedDecoder[NoteNameMapping].emapTry {
     case NoteNameMapping("A") | NoteNameMapping("a") => Success(NoteName.A)
@@ -52,10 +64,7 @@ trait QuestionsCodecs {
   }
 
   implicit val alterationEncoder: Encoder[Alteration] = deriveUnwrappedEncoder[AlterationMapping].contramap {
-    case Alteration.Sharp      => AlterationMapping("Sharp")
-    case Alteration.SharpSharp => AlterationMapping("SharpSharp")
-    case Alteration.Flat       => AlterationMapping("Flat")
-    case Alteration.FlatFlat   => AlterationMapping("FlatFlat")
+    alteration => AlterationMapping(alteration.label)
   }
 
   implicit val questionDecoder: Decoder[Question] = deriveConfiguredDecoder[QuestionMapping].emapTry {

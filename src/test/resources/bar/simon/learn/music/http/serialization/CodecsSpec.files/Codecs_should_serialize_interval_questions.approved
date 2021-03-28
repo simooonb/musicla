@@ -2,16 +2,8 @@
   "type" : "IntervalBetweenNotes",
   "scale" : null,
   "notes" : [
-    {
-      "name" : "E",
-      "alteration" : null,
-      "octave" : 1
-    },
-    {
-      "name" : "G",
-      "alteration" : null,
-      "octave" : 1
-    }
+    "E",
+    "G"
   ],
   "answer" : "b3"
 }
