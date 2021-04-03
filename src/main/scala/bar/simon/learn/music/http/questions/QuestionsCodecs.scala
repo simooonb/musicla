@@ -84,10 +84,13 @@ trait QuestionsCodecs {
     case other                                                           => Failure(DecodingFailure(s"failed to decode $other", Nil))
   }
 
-  implicit val questionEncoder: Encoder[Question] = deriveConfiguredEncoder[QuestionMapping].contramap {
-    case ScaleNotes(scale)          => QuestionMapping("ScaleNotes", Some(scale), None)
-    case ScaleFormula(scale)        => QuestionMapping("ScaleFormula", Some(scale), None)
-    case ScaleHarmonization(scale)  => QuestionMapping("ScaleHarmonization", Some(scale), None)
-    case IntervalBetweenNotes(l, r) => QuestionMapping("IntervalBetweenNotes", None, Some(List(l, r)))
-  }
+  implicit val questionEncoder: Encoder[Question] =
+    deriveConfiguredEncoder[QuestionMapping]
+      .mapJson(_.deepDropNullValues)
+      .contramap {
+        case ScaleNotes(scale)          => QuestionMapping("ScaleNotes", Some(scale), None)
+        case ScaleFormula(scale)        => QuestionMapping("ScaleFormula", Some(scale), None)
+        case ScaleHarmonization(scale)  => QuestionMapping("ScaleHarmonization", Some(scale), None)
+        case IntervalBetweenNotes(l, r) => QuestionMapping("IntervalBetweenNotes", None, Some(List(l, r)))
+      }
 }

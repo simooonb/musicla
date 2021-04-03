@@ -1,6 +1,5 @@
 {
   "type" : "IntervalBetweenNotes",
-  "scale" : null,
   "notes" : [
     "E",
     "G"
