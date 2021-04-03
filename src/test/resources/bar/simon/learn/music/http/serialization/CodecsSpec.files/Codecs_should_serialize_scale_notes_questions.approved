@@ -5,6 +5,5 @@
     "formula" : "1 2 b3 4 5 b6 b7",
     "name" : "minor"
   },
-  "notes" : null,
-  "answer" : "A B C D E F G"
+  "notes" : null
 }

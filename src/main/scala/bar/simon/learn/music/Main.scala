@@ -4,7 +4,6 @@ import java.util.Locale
 
 import bar.simon.learn.music.http.ServerBuilder
 import cats.effect._
-import org.slf4j.LoggerFactory
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.ExecutionContext.global

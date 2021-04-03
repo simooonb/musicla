@@ -25,6 +25,7 @@ libraryDependencies ++= Seq(
   "io.chrisdavenport"           %% "log4cats-slf4j"           % "1.0.1",
   "org.typelevel"               %% "kind-projector"           % "0.10.3",
   "com.lihaoyi"                 %% "pprint"                   % "0.6.2",
+  "com.lihaoyi"                 %% "requests"                 % "0.6.5",
   "com.github.pureconfig"       %% "pureconfig"               % "0.14.1",
   "com.github.pureconfig"       %% "pureconfig-cats-effect"   % "0.14.1",
   "eu.timepit"                  %% "refined-pureconfig"       % "0.9.21",

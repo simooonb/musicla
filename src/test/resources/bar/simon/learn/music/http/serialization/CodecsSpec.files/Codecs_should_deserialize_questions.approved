@@ -1,0 +1,29 @@
+Right(
+  value = List(
+    ScaleFormula(
+      scale = Scale(
+        root = Note(name = C, alteration = Some(value = Flat), octave = 1),
+        formula = "1 2 b3 4 5 b6 b7",
+        name = "minor"
+      )
+    ),
+    ScaleHarmonization(
+      scale = Scale(
+        root = Note(name = C, alteration = None, octave = 1),
+        formula = "1 2 3 4 5 6 7",
+        name = "major"
+      )
+    ),
+    ScaleNotes(
+      scale = Scale(
+        root = Note(name = A, alteration = None, octave = 1),
+        formula = "1 2 b3 4 5 b6 b7",
+        name = "minor"
+      )
+    ),
+    IntervalBetweenNotes(
+      left = Note(name = B, alteration = Some(value = Sharp), octave = 1),
+      right = Note(name = B, alteration = Some(value = Flat), octave = 1)
+    )
+  )
+)

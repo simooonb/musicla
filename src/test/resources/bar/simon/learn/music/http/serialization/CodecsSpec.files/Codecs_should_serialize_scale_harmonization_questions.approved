@@ -5,6 +5,5 @@
     "formula" : "1 2 3 4 5 6 7",
     "name" : "major"
   },
-  "notes" : null,
-  "answer" : "C E G D F A E G B F A C G B D A C E B D F"
+  "notes" : null
 }

@@ -6,6 +6,9 @@ sealed trait Alteration {
 }
 
 object Alteration {
+  val byLabelWithNone: Map[String, Option[Alteration]] =
+    ("" -> None :: List(Sharp, SharpSharp, Flat, FlatFlat).map(a => a.label -> Some(a))).toMap
+
   case object Sharp extends Alteration {
     val label              = "#"
     val semiToneValue: Int = 1

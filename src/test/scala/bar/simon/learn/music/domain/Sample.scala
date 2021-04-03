@@ -106,4 +106,42 @@ object Sample {
   val scaleFormulaQuestion: Question       = ScaleFormula(majorEFlat)
   val scaleHarmonizationQuestion: Question = ScaleHarmonization(majorC)
   val notesIntervalQuestion: Question      = IntervalBetweenNotes(E, G)
+
+  val questionsJson: String =
+    """
+      |[
+      | {
+      |   "type":"ScaleFormula",
+      |   "scale":{
+      |     "root":"Cb",
+      |     "formula":"1 2 b3 4 5 b6 b7",
+      |     "name":"minor"
+      |   },
+      |   "notes":null
+      | },
+      | {
+      |  "type" : "ScaleHarmonization",
+      |  "scale" : {
+      |    "root" : "C",
+      |    "formula" : "1 2 3 4 5 6 7",
+      |    "name" : "major"
+      |  },
+      |  "notes" : null
+      | },
+      | {
+      |  "type" : "ScaleNotes",
+      |  "scale" : {
+      |    "root" : "A",
+      |    "formula" : "1 2 b3 4 5 b6 b7",
+      |    "name" : "minor"
+      |  },
+      |  "notes" : null
+      | },
+      | {
+      |   "type":"IntervalBetweenNotes",
+      |   "scale":null,
+      |   "notes":["B#","Bb"]
+      | }
+      |]
+      |""".stripMargin
 }
