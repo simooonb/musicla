@@ -1,7 +1,7 @@
 package bar.simon.learn.music.http
 
 import bar.simon.learn.music.http.questions.QuestionsController
-import bar.simon.learn.music.usecase.AskQuestionUseCase
+import bar.simon.learn.music.domain.usecase.AskQuestionUseCase
 import cats.effect._
 import cats.implicits._
 import net.logstash.logback.marker.Markers.append
