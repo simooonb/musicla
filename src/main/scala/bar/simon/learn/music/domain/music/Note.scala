@@ -1,7 +1,6 @@
 package bar.simon.learn.music.domain.music
 
 import bar.simon.learn.music.domain.music.Alteration._
-import org.scalacheck.Gen
 
 final case class Note(
     name: NoteName,
@@ -30,12 +29,4 @@ final case class Note(
     }
   }
 
-}
-
-object Note {
-  def random: Gen[Note] =
-    for {
-      name       <- Gen.oneOf(NoteName.all)
-      alteration <- Gen.oneOf(List(Some(Sharp), Some(Flat), None))
-    } yield Note(name, alteration)
 }

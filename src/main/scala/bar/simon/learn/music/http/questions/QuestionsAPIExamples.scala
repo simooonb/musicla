@@ -2,15 +2,22 @@ package bar.simon.learn.music.http.questions
 
 import bar.simon.learn.music.domain.music.NoteName.{C, F}
 import bar.simon.learn.music.domain.music.{Note, Scale}
-import bar.simon.learn.music.domain.questions.{Question, QuestionError}
+import bar.simon.learn.music.domain.questions.Question
+import bar.simon.learn.music.domain.questions.Question._
 import bar.simon.learn.music.domain.questions.QuestionError.NegativeNumberOfQuestions
 
 object QuestionsAPIExamples {
 
-  val scaleQuestions: List[Question.ScaleNotes]              = List(Question.ScaleNotes(Scale.major(Note(C))))
-  val intervalQuestions: List[Question.IntervalBetweenNotes] = List(Question.IntervalBetweenNotes(Note(C), Note(F)))
-  val questions: List[Question]                              = scaleQuestions ++ intervalQuestions
+  val scaleNotes: List[ScaleNotes]                 = List(ScaleNotes(Scale.major(Note(C))))
+  val scaleFormula: List[ScaleFormula]             = List(ScaleFormula(Scale.major(Note(C))))
+  val scaleHarmonization: List[ScaleHarmonization] = List(ScaleHarmonization(Scale.major(Note(C))))
+  val scaleQuestions: List[Question]               = scaleNotes ++ scaleFormula ++ scaleHarmonization
 
-  val negativeNumberOfQuestions: QuestionError.NegativeNumberOfQuestions = NegativeNumberOfQuestions()
+  val intervalBetweenNotes: List[IntervalBetweenNotes] = List(IntervalBetweenNotes(Note(C), Note(F)))
+  val intervalQuestions: List[Question]                = intervalBetweenNotes
+
+  val questions: List[Question] = scaleQuestions ++ intervalQuestions
+
+  val negativeNumberOfQuestions: NegativeNumberOfQuestions = NegativeNumberOfQuestions()
 
 }

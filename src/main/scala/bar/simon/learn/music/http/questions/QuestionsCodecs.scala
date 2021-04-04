@@ -12,9 +12,13 @@ import scala.util.{Failure, Success, Try}
 trait QuestionsCodecs {
 
   case class NoteNameMapping(name: String)
+
   case class NoteMapping(name: String)
+
   case class ChordMapping(chord: String)
+
   case class AlterationMapping(name: String)
+
   case class QuestionMapping(`type`: String, scale: Option[Scale], notes: Option[List[Note]] = None)
 
   implicit val customConfig: Configuration =
@@ -93,4 +97,46 @@ trait QuestionsCodecs {
         case ScaleHarmonization(scale)  => QuestionMapping("ScaleHarmonization", Some(scale), None)
         case IntervalBetweenNotes(l, r) => QuestionMapping("IntervalBetweenNotes", None, Some(List(l, r)))
       }
+
+  implicit val scaleFormulaDecoder: Decoder[ScaleFormula] = deriveConfiguredDecoder[QuestionMapping].emapTry {
+    case QuestionMapping("ScaleFormula", Some(scale), None) => Success(ScaleFormula(scale))
+    case other                                              => Failure(DecodingFailure(s"failed to decode $other", Nil))
+  }
+
+  implicit val scaleFormulaEncoder: Encoder[ScaleFormula] =
+    deriveConfiguredEncoder[QuestionMapping]
+      .mapJson(_.deepDropNullValues)
+      .contramap { case ScaleFormula(scale) => QuestionMapping("ScaleFormula", Some(scale), None) }
+
+  implicit val scaleNotesDecoder: Decoder[ScaleNotes] = deriveConfiguredDecoder[QuestionMapping].emapTry {
+    case QuestionMapping("ScaleNotes", Some(scale), None) => Success(ScaleNotes(scale))
+    case other                                            => Failure(DecodingFailure(s"failed to decode $other", Nil))
+  }
+
+  implicit val scaleNotesEncoder: Encoder[ScaleNotes] =
+    deriveConfiguredEncoder[QuestionMapping]
+      .mapJson(_.deepDropNullValues)
+      .contramap { case ScaleNotes(scale) => QuestionMapping("ScaleNotes", Some(scale), None) }
+
+  implicit val scaleHarmonizationDecoder: Decoder[ScaleHarmonization] =
+    deriveConfiguredDecoder[QuestionMapping].emapTry {
+      case QuestionMapping("ScaleHarmonization", Some(scale), None) => Success(ScaleHarmonization(scale))
+      case other                                                    => Failure(DecodingFailure(s"failed to decode $other", Nil))
+    }
+
+  implicit val scaleHarmonizationEncoder: Encoder[ScaleHarmonization] =
+    deriveConfiguredEncoder[QuestionMapping]
+      .mapJson(_.deepDropNullValues)
+      .contramap { case ScaleHarmonization(scale) => QuestionMapping("ScaleHarmonization", Some(scale), None) }
+
+  implicit val intervalBetweenNotesDecoder: Decoder[IntervalBetweenNotes] =
+    deriveConfiguredDecoder[QuestionMapping].emapTry {
+      case QuestionMapping("IntervalBetweenNotes", None, Some(List(l, r))) => Success(IntervalBetweenNotes(l, r))
+      case other                                                           => Failure(DecodingFailure(s"failed to decode $other", Nil))
+    }
+
+  implicit val intervalBetweenNotesEncoder: Encoder[IntervalBetweenNotes] =
+    deriveConfiguredEncoder[QuestionMapping]
+      .mapJson(_.deepDropNullValues)
+      .contramap { case IntervalBetweenNotes(l, r) => QuestionMapping("IntervalBetweenNotes", None, Some(List(l, r))) }
 }

@@ -14,25 +14,6 @@ object Question {
   val intervalQuestions: List[(Note, Note) => Question] = List(IntervalBetweenNotes)
   val totalNumberOfQuestions: Int                       = scaleQuestions.size + intervalQuestions.size
 
-  def randomScaleQuestion: Gen[Question] =
-    for {
-      question <- Gen.oneOf(scaleQuestions)
-      scale    <- Scale.random
-    } yield question(scale)
-
-  def randomIntervalQuestion: Gen[Question] =
-    for {
-      question <- Gen.oneOf(intervalQuestions)
-      left     <- Note.random
-      right    <- Note.random
-    } yield question(left, right)
-
-  def randomQuestion: Gen[Question] =
-    for {
-      scaleQuestion <- Gen.prob(0.5)
-      question      <- if (scaleQuestion) randomScaleQuestion else randomIntervalQuestion
-    } yield question
-
   final case class ScaleNotes(scale: Scale) extends Question {
     val answer: String = scale.notes.map(_.label).mkString(" ")
   }

@@ -19,12 +19,6 @@ final case class Scale(root: Note, formula: String, name: String) {
 }
 
 object Scale {
-  def random: Gen[Scale] =
-    for {
-      note  <- Note.random
-      scale <- Gen.oneOf(List(major _, minor _))
-    } yield scale(note)
-
   def chromatic(note: Note): Scale = Scale(note, "1 b2 2 b3 3 4 b5 5 b6 6 b7 7", "chromatic")
 
   def major(note: Note): Scale = Scale(note, "1 2 3 4 5 6 7", "major")

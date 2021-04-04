@@ -1,6 +1,5 @@
 package bar.simon.learn.music.http.questions
 
-import bar.simon.learn.music.domain.questions.Question
 import bar.simon.learn.music.domain.questions.QuestionError.NegativeNumberOfQuestions
 import bar.simon.learn.music.http.Controller
 import bar.simon.learn.music.domain.usecase.AskQuestionUseCase
@@ -18,7 +17,13 @@ final class QuestionsController[F[_]](askQuestionUseCase: AskQuestionUseCase)(im
     with QuestionsAPI {
 
   override def routes: HttpRoutes[F] =
-    randomAnyQuestionRoute <+> randomScaleQuestionRoute <+> randomIntervalQuestionRoute
+    randomAnyQuestionRoute <+>
+      randomScaleQuestionRoute <+>
+      randomIntervalQuestionRoute <+>
+      scaleNotesQuestionRoute <+>
+      scaleFormulaQuestionRoute <+>
+      scaleHarmonizationQuestionRoute <+>
+      intervalBetweenNotesQuestionRoute
 
   private def randomAnyQuestionRoute: HttpRoutes[F] =
     randomQuestionRoute(randomAnyQuestionEndpoint, askQuestionUseCase.anyRandom)
@@ -29,7 +34,19 @@ final class QuestionsController[F[_]](askQuestionUseCase: AskQuestionUseCase)(im
   private def randomIntervalQuestionRoute: HttpRoutes[F] =
     randomQuestionRoute(randomIntervalQuestionEndpoint, askQuestionUseCase.anyInterval)
 
-  private def randomQuestionRoute(endpoint: QuestionEndpoint, questions: Int => List[Question]): HttpRoutes[F] =
+  private def scaleNotesQuestionRoute: HttpRoutes[F] =
+    randomQuestionRoute(scaleNotesQuestionEndpoint, askQuestionUseCase.askScaleNotes)
+
+  private def scaleFormulaQuestionRoute: HttpRoutes[F] =
+    randomQuestionRoute(scaleFormulaQuestionEndpoint, askQuestionUseCase.askScaleFormula)
+
+  private def scaleHarmonizationQuestionRoute: HttpRoutes[F] =
+    randomQuestionRoute(scaleHarmonizationQuestionEndpoint, askQuestionUseCase.askScaleHarmonization)
+
+  private def intervalBetweenNotesQuestionRoute: HttpRoutes[F] =
+    randomQuestionRoute(intervalBetweenNotesQuestionEndpoint, askQuestionUseCase.askIntervalBetweenNotes)
+
+  private def randomQuestionRoute[Q](endpoint: QuestionEndpoint[Q], questions: Int => List[Q]): HttpRoutes[F] =
     toRouteRecoverErrors(endpoint) {
       case Some(count) if count > 0 => F.delay(questions(count))
       case None                     => F.delay(questions(1))
