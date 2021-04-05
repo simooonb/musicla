@@ -8,10 +8,10 @@ sealed trait QuestionError extends Exception with Product with Serializable with
 
 object QuestionError {
 
-  final case class NegativeNumberOfQuestions() extends Exception("test")
-//      extends RuntimeException("Cannot ask for a negative number of questions.")
+  final case class NegativeNumberOfQuestions()
+      extends Exception("Cannot ask for a negative number of questions")
       with QuestionError
 
-  final case class UnknownError(cause: Throwable) extends RuntimeException(cause) with QuestionError
+  final case class UnknownError(cause: Throwable) extends Exception(cause) with QuestionError
 
 }
