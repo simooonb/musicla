@@ -1,11 +1,11 @@
 package bar.simon.learn.music.domain.questions
 
+import bar.simon.learn.music.domain.answers.Answer
+import bar.simon.learn.music.domain.answers.Answer.{IntervalBetweenNotesAnswer, ScaleFormulaAnswer, ScaleHarmonizationAnswer, ScaleNotesAnswer}
 import bar.simon.learn.music.domain.music.{Interval, Note, Scale}
 
-import org.scalacheck.Gen
-
 sealed trait Question {
-  val answer: String
+  val answer: Answer
 }
 
 object Question {
@@ -15,18 +15,18 @@ object Question {
   val totalNumberOfQuestions: Int                       = scaleQuestions.size + intervalQuestions.size
 
   final case class ScaleNotes(scale: Scale) extends Question {
-    val answer: String = scale.notes.map(_.label).mkString(" ")
+    val answer: ScaleNotesAnswer = ScaleNotesAnswer(scale.notes)
   }
 
   final case class ScaleFormula(scale: Scale) extends Question {
-    val answer: String = scale.formula
+    val answer: ScaleFormulaAnswer = ScaleFormulaAnswer(scale.intervals)
   }
 
   final case class ScaleHarmonization(scale: Scale) extends Question {
-    val answer: String = scale.harmonized.map(_.label).mkString(" ")
+    val answer: ScaleHarmonizationAnswer = ScaleHarmonizationAnswer(scale.harmonized)
   }
 
   final case class IntervalBetweenNotes(left: Note, right: Note) extends Question {
-    val answer: String = Interval.between(left, right).map(_.label).getOrElse("")
+    val answer: IntervalBetweenNotesAnswer = IntervalBetweenNotesAnswer(Interval.between(left, right))
   }
 }

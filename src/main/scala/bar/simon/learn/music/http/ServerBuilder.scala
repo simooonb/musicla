@@ -36,14 +36,15 @@ final class ServerBuilder[F[_]](implicit
     val initialSeed         = Seed.random()
     val generatorParameters = Gen.Parameters.default
 
-    val askQuestionUseCase  = new AskQuestionUseCase(generatorParameters, initialSeed)
-    val getAnswerUseCase = new GetAnswerUseCase()
+    val askQuestionUseCase = new AskQuestionUseCase(generatorParameters, initialSeed)
+    val getAnswerUseCase   = new GetAnswerUseCase()
 
     val questionsController = new QuestionsController(askQuestionUseCase)
-    val answerController = new AnswersController(getAnswerUseCase)
+    val answerController    = new AnswersController(getAnswerUseCase)
 
     Router(
-      "/" -> questionsController.routes ++ answerController.routes
+      "/api/questions" -> questionsController.routes,
+      "/api/answers"   -> answerController.routes
     ).orNotFound
   }
 

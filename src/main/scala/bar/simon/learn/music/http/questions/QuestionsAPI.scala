@@ -34,7 +34,7 @@ trait QuestionsAPI extends QuestionsCodecs with QuestionErrorTapirCodecs {
     endpoint.get
       .name("Random questions")
       .description("Ask random music questions.")
-      .in("api" / "questions" / "random")
+      .in("random")
       .in(query[Option[Int]](name = "number"))
       .out(statusCode(Ok))
       .out(jsonBody[List[Question]].example(questions))
@@ -48,7 +48,7 @@ trait QuestionsAPI extends QuestionsCodecs with QuestionErrorTapirCodecs {
     endpoint.get
       .name("Random scale questions")
       .description("Ask random scale questions.")
-      .in("api" / "questions" / "scale" / "random")
+      .in("scale" / "random")
       .in(query[Option[Int]](name = "number"))
       .out(statusCode(Ok))
       .out(jsonBody[List[Question]].example(scaleQuestions))
@@ -62,7 +62,7 @@ trait QuestionsAPI extends QuestionsCodecs with QuestionErrorTapirCodecs {
     endpoint.get
       .name("Random scale questions")
       .description("Ask random interval questions.")
-      .in("api" / "questions" / "interval" / "random")
+      .in("interval" / "random")
       .in(query[Option[Int]](name = "number"))
       .out(statusCode(Ok))
       .out(jsonBody[List[Question]].example(intervalQuestions))
@@ -76,7 +76,7 @@ trait QuestionsAPI extends QuestionsCodecs with QuestionErrorTapirCodecs {
     endpoint.get
       .name("'Interval between notes' questions")
       .description("Ask 'interval between notes' questions.")
-      .in("api" / "questions" / "interval" / "betweenNotes")
+      .in("interval" / "betweenNotes")
       .in(query[Option[Int]](name = "number"))
       .out(statusCode(Ok))
       .out(jsonBody[List[IntervalBetweenNotes]].example(intervalBetweenNotes))
@@ -90,7 +90,7 @@ trait QuestionsAPI extends QuestionsCodecs with QuestionErrorTapirCodecs {
     endpoint.get
       .name("'Scale notes' questions")
       .description("Ask 'scale notes' questions.")
-      .in("api" / "questions" / "scale" / "notes")
+      .in("scale" / "notes")
       .in(query[Option[Int]](name = "number"))
       .out(statusCode(Ok))
       .out(jsonBody[List[ScaleNotes]].example(scaleNotes))
@@ -104,7 +104,7 @@ trait QuestionsAPI extends QuestionsCodecs with QuestionErrorTapirCodecs {
     endpoint.get
       .name("'Scale formula' questions")
       .description("Ask 'scale formula' questions.")
-      .in("api" / "questions" / "scale" / "formula")
+      .in("scale" / "formula")
       .in(query[Option[Int]](name = "number"))
       .out(statusCode(Ok))
       .out(jsonBody[List[ScaleFormula]].example(scaleFormula))
@@ -118,7 +118,7 @@ trait QuestionsAPI extends QuestionsCodecs with QuestionErrorTapirCodecs {
     endpoint.get
       .name("'Scale harmonization' questions")
       .description("Ask 'scale harmonization' questions.")
-      .in("api" / "questions" / "scale" / "harmonization")
+      .in("scale" / "harmonization")
       .in(query[Option[Int]](name = "number"))
       .out(statusCode(Ok))
       .out(jsonBody[List[ScaleHarmonization]].example(scaleHarmonization))

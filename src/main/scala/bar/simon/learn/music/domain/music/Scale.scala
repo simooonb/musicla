@@ -1,7 +1,5 @@
 package bar.simon.learn.music.domain.music
 
-import org.scalacheck.Gen
-
 final case class Scale(root: Note, formula: String, name: String) {
 
   lazy val intervals: List[Interval] =

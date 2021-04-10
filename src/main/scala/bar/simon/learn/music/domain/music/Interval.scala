@@ -6,6 +6,7 @@ final case class Interval(semiToneLength: Int, naturalNoteOffset: Int, label: St
 
 object Interval {
 
+  // TODO: handle intervals larger than an octave
   def between(left: Note, right: Note): Option[Interval] = {
     val semiToneLength = math.abs(left.semiToneValue - right.semiToneValue)
     val noteOffset     = math.abs(left.noteIndex - right.noteIndex)

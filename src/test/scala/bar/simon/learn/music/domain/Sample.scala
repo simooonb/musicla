@@ -1,5 +1,7 @@
 package bar.simon.learn.music.domain
 
+import bar.simon.learn.music.domain.answers.Answer
+import bar.simon.learn.music.domain.answers.Answer.ScaleHarmonizationAnswer
 import bar.simon.learn.music.domain.music.Alteration._
 import bar.simon.learn.music.domain.music.Interval._
 import bar.simon.learn.music.domain.music.{Chord, Note, NoteName, Scale}
@@ -107,6 +109,13 @@ object Sample {
   val scaleHarmonizationQuestion: Question = ScaleHarmonization(majorC)
   val notesIntervalQuestion: Question      = IntervalBetweenNotes(E, G)
 
+  val scaleNotesAnswer: Answer         = scaleNotesQuestion.answer
+  val scaleFormulaAnswer: Answer       = scaleFormulaQuestion.answer
+  val scaleHarmonizationAnswer: Answer = scaleHarmonizationQuestion.answer
+  val notesIntervalAnswer: Answer      = notesIntervalQuestion.answer
+  println(scaleHarmonizationQuestion)
+  println(scaleHarmonizationAnswer.asInstanceOf[ScaleHarmonizationAnswer].chords.map(_.label))
+
   val questionsJson: String =
     """
       |[
@@ -116,8 +125,7 @@ object Sample {
       |     "root":"Cb",
       |     "formula":"1 2 b3 4 5 b6 b7",
       |     "name":"minor"
-      |   },
-      |   "notes":null
+      |   }
       | },
       | {
       |  "type" : "ScaleHarmonization",
@@ -125,8 +133,7 @@ object Sample {
       |    "root" : "C",
       |    "formula" : "1 2 3 4 5 6 7",
       |    "name" : "major"
-      |  },
-      |  "notes" : null
+      |  }
       | },
       | {
       |  "type" : "ScaleNotes",
@@ -134,12 +141,10 @@ object Sample {
       |    "root" : "A",
       |    "formula" : "1 2 b3 4 5 b6 b7",
       |    "name" : "minor"
-      |  },
-      |  "notes" : null
+      |  }
       | },
       | {
       |   "type":"IntervalBetweenNotes",
-      |   "scale":null,
       |   "notes":["B#","Bb"]
       | }
       |]
