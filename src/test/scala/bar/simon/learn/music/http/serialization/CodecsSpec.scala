@@ -1,6 +1,8 @@
 package bar.simon.learn.music.http.serialization
 
 import bar.simon.learn.music.domain.Sample
+import bar.simon.learn.music.domain.answers.Answer
+import bar.simon.learn.music.domain.music.Scale
 import bar.simon.learn.music.domain.questions.Question
 import bar.simon.learn.music.http.answers.AnswersCodecs
 import bar.simon.learn.music.http.questions.QuestionsCodecs
@@ -20,6 +22,10 @@ final class CodecsSpec
   "Codecs" should {
     "serialize scales" in { approver =>
       approver.verify(Sample.majorC.asJson)
+    }
+
+    "deserialize scales" in { approver =>
+      approver.verify(prettify(decode[Scale](Sample.cMajorScaleJson)))
     }
 
     "serialize chords" in { approver =>
@@ -62,9 +68,9 @@ final class CodecsSpec
       approver.verify(Sample.notesIntervalAnswer.asJson)
     }
 
-//    "deserialize answers" in { approver =>
-//      approver.verify(prettify(decode[List[Question]](Sample.questionsJson)))
-//    }
+    "deserialize answers" in { approver =>
+      approver.verify(prettify(decode[List[Answer]](Sample.answersJson)))
+    }
   }
 
 }

@@ -8,7 +8,7 @@ import bar.simon.learn.music.domain.questions.Question._
 
 object AnswersAPIExamples {
 
-  val scaleNotesAnswer: ScaleNotesAnswer = ScaleNotes(Scale.major(Note(C))).answer
+  val scaleNotesAnswer: ScaleNotesAnswer = ScaleNotes(Scale.Major(Note(C))).answer
 
   val inputQuestionError: InputQuestionError = InputQuestionError()
 

@@ -2,7 +2,6 @@
   "type" : "ScaleHarmonization",
   "scale" : {
     "root" : "C",
-    "formula" : "1 2 3 4 5 6 7",
-    "name" : "major"
+    "type" : "Major"
   }
 }

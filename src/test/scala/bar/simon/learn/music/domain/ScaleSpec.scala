@@ -27,7 +27,7 @@ final class ScaleSpec extends AnyWordSpec with Matchers {
     }
 
     "have the right harmonization" in {
-      val chordsExpected = List(CMaj, DMin, EMin, FMaj, GMaj, AMin, BDim).map(_.label)
+      val chordsExpected = List(CMaj, DMin, EMin, FMaj, GMaj, AMin2, BDim2).map(_.label)
       majorC.harmonized.map(_.label) should contain theSameElementsInOrderAs chordsExpected
     }
   }

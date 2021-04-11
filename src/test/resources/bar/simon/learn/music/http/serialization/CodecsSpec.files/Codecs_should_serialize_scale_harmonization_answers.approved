@@ -1,0 +1,12 @@
+{
+  "type" : "ScaleHarmonization",
+  "chords" : [
+    "C Major",
+    "D Minor",
+    "E Minor",
+    "F Major",
+    "G Major",
+    "A Minor",
+    "B Diminished"
+  ]
+}

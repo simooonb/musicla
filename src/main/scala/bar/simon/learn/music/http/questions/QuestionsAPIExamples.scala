@@ -8,9 +8,9 @@ import bar.simon.learn.music.domain.questions.QuestionError.NegativeNumberOfQues
 
 object QuestionsAPIExamples {
 
-  val scaleNotes: List[ScaleNotes]                 = List(ScaleNotes(Scale.major(Note(C))))
-  val scaleFormula: List[ScaleFormula]             = List(ScaleFormula(Scale.major(Note(C))))
-  val scaleHarmonization: List[ScaleHarmonization] = List(ScaleHarmonization(Scale.major(Note(C))))
+  val scaleNotes: List[ScaleNotes]                 = List(ScaleNotes(Scale.Major(Note(C))))
+  val scaleFormula: List[ScaleFormula]             = List(ScaleFormula(Scale.Major(Note(C))))
+  val scaleHarmonization: List[ScaleHarmonization] = List(ScaleHarmonization(Scale.Major(Note(C))))
   val scaleQuestions: List[Question]               = scaleNotes ++ scaleFormula ++ scaleHarmonization
 
   val intervalBetweenNotes: List[IntervalBetweenNotes] = List(IntervalBetweenNotes(Note(C), Note(F)))

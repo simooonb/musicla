@@ -2,7 +2,6 @@
   "type" : "ScaleNotes",
   "scale" : {
     "root" : "A",
-    "formula" : "1 2 b3 4 5 b6 b7",
-    "name" : "minor"
+    "type" : "Minor"
   }
 }

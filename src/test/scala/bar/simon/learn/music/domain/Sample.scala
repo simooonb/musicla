@@ -1,7 +1,6 @@
 package bar.simon.learn.music.domain
 
 import bar.simon.learn.music.domain.answers.Answer
-import bar.simon.learn.music.domain.answers.Answer.ScaleHarmonizationAnswer
 import bar.simon.learn.music.domain.music.Alteration._
 import bar.simon.learn.music.domain.music.Interval._
 import bar.simon.learn.music.domain.music.{Chord, Note, NoteName, Scale}
@@ -36,13 +35,15 @@ object Sample {
   val GSharpSharp: Note = Note(NoteName.G, Some(SharpSharp))
   val GFlat: Note       = Note(NoteName.G, Some(Flat))
 
-  val CMaj: Chord = Chord.major(C)
-  val DMin: Chord = Chord.minor(D)
-  val EMin: Chord = Chord.minor(E)
-  val FMaj: Chord = Chord.major(F)
-  val GMaj: Chord = Chord.major(G)
-  val AMin: Chord = Chord.minor(A)
-  val BDim: Chord = Chord.diminished(B)
+  val CMaj: Chord = Chord.Major(C)
+  val DMin: Chord = Chord.Minor(D)
+  val EMin: Chord = Chord.Minor(E)
+  val FMaj: Chord = Chord.Major(F)
+  val GMaj: Chord = Chord.Major(G)
+  val AMin: Chord = Chord.Minor(A)
+  val AMin2: Chord = Chord.Minor(A.copy(octave = 2))
+  val BDim: Chord = Chord.Diminished(B)
+  val BDim2: Chord = Chord.Diminished(B.copy(octave = 2))
 
   val intervals = List(
     (A, root, A),
@@ -87,22 +88,22 @@ object Sample {
   )
 
   // C D E F G A B
-  val majorC: Scale = Scale.major(C)
+  val majorC: Scale = Scale.Major(C)
   // A# B# C## D# E# F## G##
-  val majorASharp: Scale = Scale.major(ASharp)
+  val majorASharp: Scale = Scale.Major(ASharp)
   // Eb F G Ab Bb C D
-  val majorEFlat: Scale = Scale.major(EFlat)
+  val majorEFlat: Scale = Scale.Major(EFlat)
   // Fb Gb Ab Bbb Cb Db Eb
-  val majorFFlat: Scale = Scale.major(FFlat)
+  val majorFFlat: Scale = Scale.Major(FFlat)
 
   // A B C D E F G
-  val minorA: Scale = Scale.minor(A)
+  val minorA: Scale = Scale.Minor(A)
   // E F# G A B C D
-  val minorE: Scale = Scale.minor(E)
+  val minorE: Scale = Scale.Minor(E)
   // D# E# F# G# A# B C#
-  val minorDSharp: Scale = Scale.minor(DSharp)
+  val minorDSharp: Scale = Scale.Minor(DSharp)
   // Bb C Db Eb F Gb Ab
-  val minorBFlat: Scale = Scale.minor(BFlat)
+  val minorBFlat: Scale = Scale.Minor(BFlat)
 
   val scaleNotesQuestion: Question         = ScaleNotes(minorA)
   val scaleFormulaQuestion: Question       = ScaleFormula(majorEFlat)
@@ -113,8 +114,14 @@ object Sample {
   val scaleFormulaAnswer: Answer       = scaleFormulaQuestion.answer
   val scaleHarmonizationAnswer: Answer = scaleHarmonizationQuestion.answer
   val notesIntervalAnswer: Answer      = notesIntervalQuestion.answer
-  println(scaleHarmonizationQuestion)
-  println(scaleHarmonizationAnswer.asInstanceOf[ScaleHarmonizationAnswer].chords.map(_.label))
+
+  val cMajorScaleJson: String =
+    """
+      |{
+      |  "root" : "C",
+      |  "type" : "Major"
+      |}
+      |""".stripMargin
 
   val questionsJson: String =
     """
@@ -123,29 +130,72 @@ object Sample {
       |   "type":"ScaleFormula",
       |   "scale":{
       |     "root":"Cb",
-      |     "formula":"1 2 b3 4 5 b6 b7",
-      |     "name":"minor"
+      |     "type":"Minor"
       |   }
       | },
       | {
       |  "type" : "ScaleHarmonization",
       |  "scale" : {
       |    "root" : "C",
-      |    "formula" : "1 2 3 4 5 6 7",
-      |    "name" : "major"
+      |    "type" : "Major"
       |  }
       | },
       | {
       |  "type" : "ScaleNotes",
       |  "scale" : {
       |    "root" : "A",
-      |    "formula" : "1 2 b3 4 5 b6 b7",
-      |    "name" : "minor"
+      |    "type" : "Minor"
       |  }
       | },
       | {
       |   "type":"IntervalBetweenNotes",
       |   "notes":["B#","Bb"]
+      | }
+      |]
+      |""".stripMargin
+
+  val answersJson: String =
+    """
+      |[
+      | {
+      |  "type" : "IntervalBetweenNotes",
+      |  "interval" : "b3"
+      | },
+      | {
+      |  "type" : "ScaleFormula",
+      |  "intervals" : [
+      |    "1",
+      |    "2",
+      |    "3",
+      |    "4",
+      |    "5",
+      |    "6",
+      |    "7"
+      |  ]
+      | },
+      | {
+      |  "type" : "ScaleHarmonization",
+      |  "chords" : [
+      |    "C Major",
+      |    "D Minor",
+      |    "E Minor",
+      |    "F Major",
+      |    "G Major",
+      |    "A Minor",
+      |    "B Diminished"
+      |  ]
+      | },
+      | {
+      |  "type" : "ScaleNotes",
+      |  "notes" : [
+      |    "A",
+      |    "B",
+      |    "C",
+      |    "D",
+      |    "E",
+      |    "F",
+      |    "G"
+      |  ]
       | }
       |]
       |""".stripMargin

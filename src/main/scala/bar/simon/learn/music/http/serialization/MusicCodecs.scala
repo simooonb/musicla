@@ -35,20 +35,31 @@ trait MusicCodecs {
   implicit val scaleCodec: Codec[Scale] = deriveConfiguredCodec
 
   implicit val chordEncoder: Encoder[Chord] = deriveUnwrappedEncoder[ChordMapping].contramap { chord =>
-    ChordMapping(s"${chord.root.label} ${chord.name}")
+    ChordMapping(chord.label)
   }
 
-  implicit val chordDecoder: Decoder[Chord] = deriveConfiguredDecoder
+  implicit val chordDecoder: Decoder[Chord] = deriveUnwrappedDecoder[ChordMapping].emapTry { chord =>
+    val parts = chord.chord.split(" ")
 
-  implicit val noteNameDecoder: Decoder[NoteName] = deriveUnwrappedDecoder[NoteNameMapping].emapTry {
-    case NoteNameMapping("A") | NoteNameMapping("a") => Success(NoteName.A)
-    case NoteNameMapping("B") | NoteNameMapping("b") => Success(NoteName.A)
-    case NoteNameMapping("C") | NoteNameMapping("c") => Success(NoteName.A)
-    case NoteNameMapping("D") | NoteNameMapping("d") => Success(NoteName.A)
-    case NoteNameMapping("E") | NoteNameMapping("e") => Success(NoteName.A)
-    case NoteNameMapping("F") | NoteNameMapping("f") => Success(NoteName.A)
-    case NoteNameMapping("G") | NoteNameMapping("g") => Success(NoteName.A)
-    case other                                       => Failure(DecodingFailure(s"failed to decode $other", Nil))
+    val maybeChord = for {
+      note            <- parts.headOption
+      noteName        <- note.headOption.flatMap(n => NoteName.all.collectFirst { case nn if n.toString == nn.toString => nn })
+      maybeAlteration <- Alteration.byLabelWithNone.get(note.tail)
+      chord           <- Chord.findWithName(Note(noteName, maybeAlteration), parts.last)
+    } yield chord
+
+    Try(maybeChord.get)
+  }
+
+  implicit val noteNameDecoder: Decoder[NoteName] = Decoder.decodeString.emapTry {
+    case "A" | "a" => Success(NoteName.A)
+    case "B" | "b" => Success(NoteName.B)
+    case "C" | "c" => Success(NoteName.C)
+    case "D" | "d" => Success(NoteName.D)
+    case "E" | "e" => Success(NoteName.E)
+    case "F" | "f" => Success(NoteName.F)
+    case "G" | "g" => Success(NoteName.G)
+    case other     => Failure(DecodingFailure(s"failed to decode $other", Nil))
   }
 
   implicit val noteNameEncoder: Encoder[NoteName] = deriveUnwrappedEncoder[NoteNameMapping].contramap {
@@ -61,24 +72,24 @@ trait MusicCodecs {
     case NoteName.G => NoteNameMapping("G")
   }
 
-  implicit val alterationDecoder: Decoder[Alteration] = deriveUnwrappedDecoder[AlterationMapping].emapTry {
-    case AlterationMapping("Sharp") | AlterationMapping("#")       => Success(Alteration.Sharp)
-    case AlterationMapping("SharpSharp") | AlterationMapping("##") => Success(Alteration.SharpSharp)
-    case AlterationMapping("Flat") | AlterationMapping("b")        => Success(Alteration.Flat)
-    case AlterationMapping("FlatFlat") | AlterationMapping("bb")   => Success(Alteration.FlatFlat)
-    case other                                                     => Failure(DecodingFailure(s"failed to decode $other", Nil))
+  implicit val alterationDecoder: Decoder[Alteration] = Decoder.decodeString.emapTry {
+    case "Sharp" | "#"       => Success(Alteration.Sharp)
+    case "SharpSharp" | "##" => Success(Alteration.SharpSharp)
+    case "Flat" | "b"        => Success(Alteration.Flat)
+    case "FlatFlat" | "bb"   => Success(Alteration.FlatFlat)
+    case other               => Failure(DecodingFailure(s"failed to decode $other", Nil))
   }
 
   implicit val alterationEncoder: Encoder[Alteration] = deriveUnwrappedEncoder[AlterationMapping].contramap {
     alteration => AlterationMapping(alteration.label)
   }
 
-  implicit val intervalDecoder: Decoder[Interval] = deriveUnwrappedDecoder[IntervalMapping].emapTry {
-    interval => Try(Interval.get(interval.label).get)
+  implicit val intervalDecoder: Decoder[Interval] = deriveUnwrappedDecoder[IntervalMapping].emapTry { interval =>
+    Try(Interval.get(interval.label).get)
   }
 
-  implicit val intervalEncoder: Encoder[Interval] = deriveUnwrappedEncoder[IntervalMapping].contramap {
-    interval => IntervalMapping(interval.label)
+  implicit val intervalEncoder: Encoder[Interval] = deriveUnwrappedEncoder[IntervalMapping].contramap { interval =>
+    IntervalMapping(interval.label)
   }
 
 }

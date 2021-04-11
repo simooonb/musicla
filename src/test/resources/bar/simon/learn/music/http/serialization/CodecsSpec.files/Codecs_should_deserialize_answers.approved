@@ -1,0 +1,40 @@
+Right(
+  value = List(
+    IntervalBetweenNotesAnswer(
+      interval = Some(value = Interval(semiToneLength = 3, naturalNoteOffset = 2, label = "b3"))
+    ),
+    ScaleFormulaAnswer(
+      intervals = List(
+        Interval(semiToneLength = 0, naturalNoteOffset = 0, label = "1"),
+        Interval(semiToneLength = 2, naturalNoteOffset = 1, label = "2"),
+        Interval(semiToneLength = 4, naturalNoteOffset = 2, label = "3"),
+        Interval(semiToneLength = 5, naturalNoteOffset = 3, label = "4"),
+        Interval(semiToneLength = 7, naturalNoteOffset = 4, label = "5"),
+        Interval(semiToneLength = 9, naturalNoteOffset = 5, label = "6"),
+        Interval(semiToneLength = 11, naturalNoteOffset = 6, label = "7")
+      )
+    ),
+    ScaleHarmonizationAnswer(
+      chords = List(
+        Major(root = Note(name = C, alteration = None, octave = 1)),
+        Minor(root = Note(name = D, alteration = None, octave = 1)),
+        Minor(root = Note(name = E, alteration = None, octave = 1)),
+        Major(root = Note(name = F, alteration = None, octave = 1)),
+        Major(root = Note(name = G, alteration = None, octave = 1)),
+        Minor(root = Note(name = A, alteration = None, octave = 1)),
+        Diminished(root = Note(name = B, alteration = None, octave = 1))
+      )
+    ),
+    ScaleNotesAnswer(
+      notes = List(
+        Note(name = A, alteration = None, octave = 1),
+        Note(name = B, alteration = None, octave = 1),
+        Note(name = C, alteration = None, octave = 1),
+        Note(name = D, alteration = None, octave = 1),
+        Note(name = E, alteration = None, octave = 1),
+        Note(name = F, alteration = None, octave = 1),
+        Note(name = G, alteration = None, octave = 1)
+      )
+    )
+  )
+)

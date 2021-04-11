@@ -1,7 +1,7 @@
 package bar.simon.learn.music.domain.questions
 
 import bar.simon.learn.music.domain.music.Alteration.{Flat, Sharp}
-import bar.simon.learn.music.domain.music.Scale.{major, minor}
+import bar.simon.learn.music.domain.music.Scale.{Major, Minor}
 import bar.simon.learn.music.domain.music.{Note, NoteName, Scale}
 import bar.simon.learn.music.domain.questions.Question.{IntervalBetweenNotes, ScaleFormula, ScaleHarmonization, ScaleNotes, intervalQuestions, scaleQuestions}
 import org.scalacheck.Gen
@@ -17,7 +17,7 @@ object Generators {
   def scale: Gen[Scale] =
     for {
       note  <- note
-      scale <- Gen.oneOf(List(major _, minor _))
+      scale <- Gen.oneOf(List(Major, Minor))
     } yield scale(note)
 
   def scaleQuestion: Gen[Question] =

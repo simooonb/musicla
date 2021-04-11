@@ -32,7 +32,8 @@ class EndToEndTest extends AnyWordSpec with Matchers with QuestionsCodecs with A
         )
       }.map(response => decode[List[Q]](response.text()).getOrElse(Nil))
 
-    def post[Q, A](url: String, input: Q)(implicit e: Encoder[Q], d: Decoder[A]): IO[Option[A]] =
+    def post[Q, A](url: String, input: Q)(implicit e: Encoder[Q], d: Decoder[A]): IO[Option[A]] = {
+      println(e.apply(input).spaces2SortKeys)
       IO.delay {
         requests.post(
           url = url,
@@ -41,12 +42,13 @@ class EndToEndTest extends AnyWordSpec with Matchers with QuestionsCodecs with A
           connectTimeout = 1.minutes.toMillis.toInt
         )
       }.map(response => decode[A](response.text()).toOption)
+    }
 
     "ask questions" in {
       IO.race(
         Main.run(Nil).flatMap { code => IO(fail(s"Application terminated: $code")) },
         for {
-          _    <- IO.sleep(3.seconds)
+          _    <- IO.sleep(5.seconds)
           rq   <- get[Question]("http://localhost:8080/api/questions/random?number=2")
           rsq  <- get[Question]("http://localhost:8080/api/questions/scale/random?number=2")
           riq  <- get[Question]("http://localhost:8080/api/questions/interval/random?number=2")
@@ -55,10 +57,7 @@ class EndToEndTest extends AnyWordSpec with Matchers with QuestionsCodecs with A
           shq  <- get[ScaleHarmonization]("http://localhost:8080/api/questions/scale/harmonization?number=2")
           ibnq <- get[IntervalBetweenNotes]("http://localhost:8080/api/questions/interval/betweenNotes?number=2")
           all = List(rq, rsq, riq, sfq, snq, shq, ibnq)
-        } yield {
-          all.foreach(_.size shouldBe 2)
-
-        }
+        } yield all.foreach(_.size shouldBe 2)
       ).unsafeRunSync()
     }
 
@@ -66,14 +65,16 @@ class EndToEndTest extends AnyWordSpec with Matchers with QuestionsCodecs with A
       IO.race(
         Main.run(Nil).flatMap { code => IO(fail(s"Application terminated: $code")) },
         for {
-          _        <- IO.sleep(3.seconds)
+          _        <- IO.sleep(5.seconds)
           interval <- post[Question, Answer]("http://localhost:8080/api/answers", Sample.notesIntervalQuestion)
 //          chords   <- post[Question, Answer]("http://localhost:8080/api/answers", Sample.scaleHarmonizationQuestion)
           notes    <- post[Question, Answer]("http://localhost:8080/api/answers", Sample.scaleNotesQuestion)
           formula  <- post[Question, Answer]("http://localhost:8080/api/answers", Sample.scaleFormulaQuestion)
         } yield {
-          interval shouldBe Some(Sample.notesIntervalAnswer)
+          // TODO: add back when octave are serialized/deserialized
+          //  the test fails because the octave is lost when the answer is serialized/deserialized
 //          chords shouldBe Some(Sample.scaleHarmonizationAnswer)
+          interval shouldBe Some(Sample.notesIntervalAnswer)
           notes shouldBe Some(Sample.scaleNotesAnswer)
           formula shouldBe Some(Sample.scaleFormulaAnswer)
         }
