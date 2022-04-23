@@ -83,7 +83,7 @@ class EndToEndTest extends AnyWordSpec with Matchers with BeforeAndAfterAll with
       formula shouldBe scaleFormulaAnswer
     }).void
 
-  def verifyAnswers: IO[Unit] = {
+  def verifyAnswers: IO[Unit] =
     (for {
       _ <- IO.sleep(2.seconds)
       goodNotes <- post[AnswerVerification, Boolean](
@@ -108,7 +108,6 @@ class EndToEndTest extends AnyWordSpec with Matchers with BeforeAndAfterAll with
       wrongInterval shouldBe false
       wrongFormula shouldBe false
     }).void
-  }
 
   private def get[Q](url: String)(implicit d: Decoder[List[Q]]): IO[List[Q]] =
     IO {

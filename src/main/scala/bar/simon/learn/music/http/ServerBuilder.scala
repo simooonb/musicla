@@ -10,6 +10,7 @@ import net.logstash.logback.marker.Markers.append
 import org.http4s.HttpApp
 import org.http4s.implicits._
 import org.http4s.server.jetty._
+import org.http4s.server.middleware.Logger
 import org.http4s.server.{Router, Server}
 import org.scalacheck.Gen
 import org.scalacheck.rng.Seed
@@ -37,11 +38,16 @@ final class ServerBuilder[F[_]](implicit timer: Timer[F], cs: ContextShift[F], c
     val questionsController = new QuestionsController(askQuestionUseCase)
     val answerController    = new AnswersController(getAnswerUseCase, verifyAnswerUseCase)
 
-    Router(
+    val router = Router(
       "/api/questions"      -> questionsController.routes,
       "/api/answers"        -> answerController.getAnswerRoute,
       "/api/answers/verify" -> answerController.verifyAnswerRoute
     ).orNotFound
+
+    Logger.httpApp(
+      logHeaders = true,
+      logBody = true
+    )(router)
   }
 
   private def createServer(
