@@ -23,11 +23,11 @@ final class ServerBuilder[F[_]](implicit timer: Timer[F], cs: ContextShift[F], c
     for {
       serverConfiguration <- ServerConfiguration.load
       _      = logger.info(append("configuration", "http"), serverConfiguration.show)
-      router = createRouter()
-      server <- createServer(serverConfiguration, router)
+      router = buildRouter()
+      server <- buildServer(serverConfiguration, router)
     } yield server
 
-  private def createRouter(): HttpApp[F] = {
+  private def buildRouter(): HttpApp[F] = {
     val initialSeed         = Seed.random()
     val generatorParameters = Gen.Parameters.default
 
@@ -50,7 +50,7 @@ final class ServerBuilder[F[_]](implicit timer: Timer[F], cs: ContextShift[F], c
     )(router)
   }
 
-  private def createServer(
+  private def buildServer(
       configuration: ServerConfiguration,
       router: HttpApp[F]
   ): Resource[F, Server[F]] =

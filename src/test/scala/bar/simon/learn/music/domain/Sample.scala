@@ -47,7 +47,7 @@ object Sample {
   val BDim2: Chord = Chord.Diminished(B.copy(octave = 2))
 
   val intervals = List(
-    (A, root, A),
+    (A, unison, A),
     (A, minorSecond, BFlat),
     (A, majorSecond, B),
     (A, minorThird, C),
@@ -60,7 +60,7 @@ object Sample {
     (A, majorSixth, FSharp),
     (A, minorSeventh, G),
     (A, majorSeventh, GSharp),
-    (EFlat, root, EFlat),
+    (EFlat, unison, EFlat),
     (EFlat, minorSecond, FFlat),
     (EFlat, majorSecond, F),
     (EFlat, minorThird, GFlat),
@@ -73,7 +73,7 @@ object Sample {
     (EFlat, majorSixth, C.copy(octave = 2)),
     (EFlat, minorSeventh, DFlat.copy(octave = 2)),
     (EFlat, majorSeventh, D.copy(octave = 2)),
-    (B, root, B),
+    (B, unison, B),
     (B, minorSecond, C),
     (B, majorSecond, CSharp),
     (B, minorThird, D),

@@ -9,7 +9,7 @@ final class ScaleSpec extends AnyWordSpec with Matchers {
 
   "Major scale" should {
     "have the right intervals" in {
-      val intervalsExpected = List(root, majorSecond, majorThird, fourth, fifth, majorSixth, majorSeventh)
+      val intervalsExpected = List(unison, majorSecond, majorThird, fourth, fifth, majorSixth, majorSeventh)
       majorC.intervals should contain theSameElementsInOrderAs intervalsExpected
     }
 
@@ -34,7 +34,7 @@ final class ScaleSpec extends AnyWordSpec with Matchers {
 
   "Minor scale" should {
     "have the right intervals" in {
-      val intervalsExpected = List(root, majorSecond, minorThird, fourth, fifth, minorSixth, minorSeventh)
+      val intervalsExpected = List(unison, majorSecond, minorThird, fourth, fifth, minorSixth, minorSeventh)
       minorA.intervals should contain theSameElementsInOrderAs intervalsExpected
     }
 

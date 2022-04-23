@@ -26,7 +26,7 @@ object Interval {
   def getByToneAndOffset(semiToneLength: Int, offset: Int): List[Interval] =
     getBySemiToneLength(semiToneLength) intersect getByNaturalNoteOffset(offset)
 
-  val root: Interval              = Interval(0, 0, "1")
+  val unison: Interval            = Interval(0, 0, "1")
   val minorSecond: Interval       = Interval(1, 1, "b2")
   val majorSecond: Interval       = Interval(2, 1, "2")
   val minorThird: Interval        = Interval(3, 2, "b3")
@@ -46,7 +46,7 @@ object Interval {
   val majorSixthOctave: Interval  = Interval(21, 12, "13")
 
   private val all = List(
-    root,
+    unison,
     minorSecond,
     majorSecond,
     minorThird,
