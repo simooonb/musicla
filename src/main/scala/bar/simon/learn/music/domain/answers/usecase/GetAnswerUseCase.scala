@@ -1,4 +1,4 @@
-package bar.simon.learn.music.domain.usecase
+package bar.simon.learn.music.domain.answers.usecase
 
 import bar.simon.learn.music.domain.answers.Answer
 import bar.simon.learn.music.domain.questions.Question

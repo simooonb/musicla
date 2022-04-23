@@ -5,11 +5,9 @@ sealed trait Chord {
   def formula: String
   def name: String
 
-  lazy val label: String = s"${root.label} $name"
-
+  lazy val label: String             = s"${root.label} $name"
   lazy val intervals: List[Interval] = formula.split(" ").toList.flatMap(Interval.get)
-
-  lazy val notes: List[Note] = intervals.map(root.add)
+  lazy val notes: List[Note]         = intervals.map(root.add)
 
   // TODO: add methods to transform chords (e.g. from major to major7)
 }

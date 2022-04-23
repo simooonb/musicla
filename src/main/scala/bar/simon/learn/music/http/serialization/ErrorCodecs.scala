@@ -1,10 +1,9 @@
 package bar.simon.learn.music.http.serialization
 
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
-
 import io.circe.{Encoder, Json}
 
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import scala.util.control.NoStackTrace
 
 object ErrorCodecs {

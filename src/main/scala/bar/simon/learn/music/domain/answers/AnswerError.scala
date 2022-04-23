@@ -1,8 +1,8 @@
 package bar.simon.learn.music.domain.answers
 
-import scala.util.control.NoStackTrace
+import bar.simon.learn.music.domain.music.MusicError
 
-sealed trait AnswerError extends Exception with Product with Serializable with NoStackTrace {
+sealed trait AnswerError extends MusicError {
   def getName: String = getClass.getCanonicalName
 }
 

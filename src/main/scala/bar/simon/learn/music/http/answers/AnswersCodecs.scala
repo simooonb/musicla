@@ -1,7 +1,12 @@
 package bar.simon.learn.music.http.answers
 
 import bar.simon.learn.music.domain.answers.Answer
-import bar.simon.learn.music.domain.answers.Answer.{IntervalBetweenNotesAnswer, ScaleFormulaAnswer, ScaleHarmonizationAnswer, ScaleNotesAnswer}
+import bar.simon.learn.music.domain.answers.Answer.{
+  IntervalBetweenNotesAnswer,
+  ScaleFormulaAnswer,
+  ScaleHarmonizationAnswer,
+  ScaleNotesAnswer
+}
 import bar.simon.learn.music.domain.music._
 import bar.simon.learn.music.http.serialization.MusicCodecs
 import io.circe._

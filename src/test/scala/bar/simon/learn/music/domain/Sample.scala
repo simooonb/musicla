@@ -1,6 +1,7 @@
 package bar.simon.learn.music.domain
 
-import bar.simon.learn.music.domain.answers.Answer
+import bar.simon.learn.music.domain.answers.Answer.{IntervalBetweenNotesAnswer, ScaleHarmonizationAnswer}
+import bar.simon.learn.music.domain.answers.{Answer, AnswerVerification}
 import bar.simon.learn.music.domain.music.Alteration._
 import bar.simon.learn.music.domain.music.Interval._
 import bar.simon.learn.music.domain.music.{Chord, Note, NoteName, Scale}
@@ -35,14 +36,14 @@ object Sample {
   val GSharpSharp: Note = Note(NoteName.G, Some(SharpSharp))
   val GFlat: Note       = Note(NoteName.G, Some(Flat))
 
-  val CMaj: Chord = Chord.Major(C)
-  val DMin: Chord = Chord.Minor(D)
-  val EMin: Chord = Chord.Minor(E)
-  val FMaj: Chord = Chord.Major(F)
-  val GMaj: Chord = Chord.Major(G)
-  val AMin: Chord = Chord.Minor(A)
+  val CMaj: Chord  = Chord.Major(C)
+  val DMin: Chord  = Chord.Minor(D)
+  val EMin: Chord  = Chord.Minor(E)
+  val FMaj: Chord  = Chord.Major(F)
+  val GMaj: Chord  = Chord.Major(G)
+  val AMin: Chord  = Chord.Minor(A)
   val AMin2: Chord = Chord.Minor(A.copy(octave = 2))
-  val BDim: Chord = Chord.Diminished(B)
+  val BDim: Chord  = Chord.Diminished(B)
   val BDim2: Chord = Chord.Diminished(B.copy(octave = 2))
 
   val intervals = List(
@@ -115,10 +116,17 @@ object Sample {
   val scaleHarmonizationAnswer: Answer = scaleHarmonizationQuestion.answer
   val notesIntervalAnswer: Answer      = notesIntervalQuestion.answer
 
+  val goodScaleNoteVerification: AnswerVerification     = AnswerVerification(scaleNotesQuestion, scaleNotesAnswer)
+  val goodNotesIntervalVerification: AnswerVerification = AnswerVerification(notesIntervalQuestion, notesIntervalAnswer)
+  val wrongNotesIntervalVerification: AnswerVerification =
+    AnswerVerification(notesIntervalQuestion, IntervalBetweenNotesAnswer(Some(majorSecond)))
+  val wrongScaleFormulaVerification: AnswerVerification =
+    AnswerVerification(scaleHarmonizationQuestion, ScaleHarmonizationAnswer(Nil))
+
   val cMajorScaleJson: String =
     """
       |{
-      |  "root" : "C",
+      |  "tonic" : "C",
       |  "type" : "Major"
       |}
       |""".stripMargin
@@ -129,21 +137,21 @@ object Sample {
       | {
       |   "type":"ScaleFormula",
       |   "scale":{
-      |     "root":"Cb",
+      |     "tonic":"Cb",
       |     "type":"Minor"
       |   }
       | },
       | {
       |  "type" : "ScaleHarmonization",
       |  "scale" : {
-      |    "root" : "C",
+      |    "tonic" : "C",
       |    "type" : "Major"
       |  }
       | },
       | {
       |  "type" : "ScaleNotes",
       |  "scale" : {
-      |    "root" : "A",
+      |    "tonic" : "A",
       |    "type" : "Minor"
       |  }
       | },
@@ -198,5 +206,30 @@ object Sample {
       |  ]
       | }
       |]
+      |""".stripMargin
+
+  val goodScaleNoteVerificationJson: String =
+    """
+      |{
+      | "question": {
+      |  "type" : "ScaleNotes",
+      |  "scale" : {
+      |   "tonic" : "A",
+      |   "type" : "Minor"
+      |  }
+      | },
+      | "answer": {
+      |  "type" : "ScaleNotes",
+      |  "notes" : [
+      |    "A",
+      |    "B",
+      |    "C",
+      |    "D",
+      |    "E",
+      |    "F",
+      |    "G"
+      |  ]
+      | }
+      |}
       |""".stripMargin
 }

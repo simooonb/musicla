@@ -1,7 +1,7 @@
 package bar.simon.learn.music.http
 
 import cats.Show
-import cats.effect.{Blocker, ContextShift, Resource, Sync}
+import cats.effect.{Resource, Sync}
 import cats.implicits.catsSyntaxEither
 import eu.timepit.refined.pureconfig._
 import eu.timepit.refined.types.net.NonSystemPortNumber
@@ -9,7 +9,6 @@ import eu.timepit.refined.types.string.NonEmptyString
 import pureconfig._
 import pureconfig.error.ConfigReaderException
 import pureconfig.generic.auto._
-import pureconfig.module.catseffect.syntax._
 
 final case class ServerConfiguration(
     host: NonEmptyString,

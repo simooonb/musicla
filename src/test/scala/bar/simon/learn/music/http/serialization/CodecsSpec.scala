@@ -1,11 +1,10 @@
 package bar.simon.learn.music.http.serialization
 
 import bar.simon.learn.music.domain.Sample
-import bar.simon.learn.music.domain.answers.Answer
+import bar.simon.learn.music.domain.answers.{Answer, AnswerVerification}
 import bar.simon.learn.music.domain.music.Scale
 import bar.simon.learn.music.domain.questions.Question
-import bar.simon.learn.music.http.answers.AnswersCodecs
-import bar.simon.learn.music.http.questions.QuestionsCodecs
+import bar.simon.learn.music.http.answers.AnswerVerificationCodecs
 import com.github.writethemfirst.Approbation
 import io.circe.parser.decode
 import io.circe.syntax._
@@ -16,8 +15,7 @@ final class CodecsSpec
     extends FixtureAnyWordSpec
     with Approbation
     with Matchers
-    with QuestionsCodecs
-    with AnswersCodecs {
+    with AnswerVerificationCodecs {
 
   "Codecs" should {
     "serialize scales" in { approver =>
@@ -70,6 +68,14 @@ final class CodecsSpec
 
     "deserialize answers" in { approver =>
       approver.verify(prettify(decode[List[Answer]](Sample.answersJson)))
+    }
+
+    "serialize good scale notes verification" in { approver =>
+      approver.verify(Sample.goodScaleNoteVerification.asJson)
+    }
+
+    "deserialize good scale notes verification" in { approver =>
+      approver.verify(prettify(decode[AnswerVerification](Sample.goodScaleNoteVerificationJson)))
     }
   }
 

@@ -1,7 +1,7 @@
 {
   "type" : "ScaleHarmonization",
   "scale" : {
-    "root" : "C",
+    "tonic" : "C",
     "type" : "Major"
   }
 }

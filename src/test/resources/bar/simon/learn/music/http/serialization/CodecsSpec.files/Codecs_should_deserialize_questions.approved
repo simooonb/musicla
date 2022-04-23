@@ -1,8 +1,8 @@
 Right(
   value = List(
-    ScaleFormula(scale = Minor(root = Note(name = C, alteration = Some(value = Flat), octave = 1))),
-    ScaleHarmonization(scale = Major(root = Note(name = C, alteration = None, octave = 1))),
-    ScaleNotes(scale = Minor(root = Note(name = A, alteration = None, octave = 1))),
+    ScaleFormula(scale = Minor(tonic = Note(name = C, alteration = Some(value = Flat), octave = 1))),
+    ScaleHarmonization(scale = Major(tonic = Note(name = C, alteration = None, octave = 1))),
+    ScaleNotes(scale = Minor(tonic = Note(name = A, alteration = None, octave = 1))),
     IntervalBetweenNotes(
       left = Note(name = B, alteration = Some(value = Sharp), octave = 1),
       right = Note(name = B, alteration = Some(value = Flat), octave = 1)

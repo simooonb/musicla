@@ -1,6 +1,7 @@
 package bar.simon.learn.music.domain.music
 
 import bar.simon.learn.music.domain.music.Alteration._
+import bar.simon.learn.music.domain.music.NoteName.numberOfNaturalNotes
 
 final case class Note(
     name: NoteName,
@@ -14,10 +15,10 @@ final case class Note(
   val label: String      = s"$name${alteration.map(_.label).getOrElse("")}"
 
   def add(interval: Interval): Note = {
-    val nextNameIndex   = interval.naturalNoteOffset + NoteName.all.indexOf(name)
-    val nextOctave      = if (nextNameIndex >= NoteName.all.size) octave + 1 else octave
+    val nextNameIndex   = interval.naturalNoteOffset + name.noteIndex - 1
+    val nextOctave      = if (nextNameIndex >= numberOfNaturalNotes) octave + 1 else octave
     val nextOctaveValue = (nextOctave - 1) * 12
-    val nextName        = NoteName.all(nextNameIndex % NoteName.all.size)
+    val nextName        = NoteName.all(nextNameIndex % numberOfNaturalNotes)
     val alterationLeft  = interval.semiToneLength - (nextName.semiToneValue + nextOctaveValue - semiToneValue)
 
     alterationLeft match {

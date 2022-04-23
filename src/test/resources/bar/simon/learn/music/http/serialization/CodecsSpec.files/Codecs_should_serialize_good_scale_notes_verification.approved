@@ -1,0 +1,21 @@
+{
+  "question" : {
+    "type" : "ScaleNotes",
+    "scale" : {
+      "tonic" : "A",
+      "type" : "Minor"
+    }
+  },
+  "answer" : {
+    "type" : "ScaleNotes",
+    "notes" : [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G"
+    ]
+  }
+}

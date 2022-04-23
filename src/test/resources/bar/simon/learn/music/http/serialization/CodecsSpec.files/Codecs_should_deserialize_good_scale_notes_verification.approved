@@ -1,0 +1,16 @@
+Right(
+  value = AnswerVerification(
+    question = ScaleNotes(scale = Minor(tonic = Note(name = A, alteration = None, octave = 1))),
+    answer = ScaleNotesAnswer(
+      notes = List(
+        Note(name = A, alteration = None, octave = 1),
+        Note(name = B, alteration = None, octave = 1),
+        Note(name = C, alteration = None, octave = 1),
+        Note(name = D, alteration = None, octave = 1),
+        Note(name = E, alteration = None, octave = 1),
+        Note(name = F, alteration = None, octave = 1),
+        Note(name = G, alteration = None, octave = 1)
+      )
+    )
+  )
+)

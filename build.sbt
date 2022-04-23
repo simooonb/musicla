@@ -2,7 +2,7 @@ name := "musicla"
 
 version := "0.1"
 
-scalaVersion := "2.13.5"
+ThisBuild / scalaVersion := "2.13.8"
 
 scalacOptions ++= Seq(
   "-Xfatal-warnings"
@@ -10,10 +10,8 @@ scalacOptions ++= Seq(
 
 resolvers += Resolver.bintrayRepo("writethemfirst", "maven")
 
-addCompilerPlugin("org.typelevel" % "kind-projector" % "0.11.3" cross CrossVersion.full)
-
 libraryDependencies ++= Seq(
-  "com.github.writethemfirst"   %% "approvals-scala"          % "1.1.1",
+  "com.colisweb"   %% "approvals-scala"          % "1.3.0",
   "io.circe"                    %% "circe-parser"             % "0.13.0",
   "io.circe"                    %% "circe-core"               % "0.13.0",
   "io.circe"                    %% "circe-generic"            % "0.13.0",

@@ -1,7 +1,7 @@
 {
   "type" : "ScaleFormula",
   "scale" : {
-    "root" : "Eb",
+    "tonic" : "Eb",
     "type" : "Major"
   }
 }

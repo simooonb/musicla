@@ -1,1 +1,1 @@
-Right(value = Major(root = Note(name = C, alteration = None, octave = 1)))
+Right(value = Major(tonic = Note(name = C, alteration = None, octave = 1)))

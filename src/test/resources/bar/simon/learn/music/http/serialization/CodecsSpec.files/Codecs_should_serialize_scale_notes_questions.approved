@@ -1,7 +1,7 @@
 {
   "type" : "ScaleNotes",
   "scale" : {
-    "root" : "A",
+    "tonic" : "A",
     "type" : "Minor"
   }
 }
