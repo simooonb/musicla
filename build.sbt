@@ -4,10 +4,6 @@ version := "0.1"
 
 ThisBuild / scalaVersion := "2.13.8"
 
-scalacOptions ++= Seq(
-  "-Xfatal-warnings"
-)
-
 resolvers += Resolver.bintrayRepo("writethemfirst", "maven")
 
 libraryDependencies ++= Seq(
@@ -41,3 +37,11 @@ libraryDependencies ++= Seq(
   "com.softwaremill.sttp.tapir" %% "tapir-zio-http4s-server"  % "0.17.19",
   "com.softwaremill.sttp.tapir" %% "tapir-json-circe"         % "0.17.19"
 )
+
+Compile / mainClass := Some("bar.simon.learn.music.Main")
+
+enablePlugins(JavaAppPackaging)
+enablePlugins(DockerPlugin)
+enablePlugins(AshScriptPlugin)
+
+dockerBaseImage := "adoptopenjdk/openjdk14:jre-14.0.2_12"

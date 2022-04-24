@@ -1,7 +1,0 @@
-compile:
-  script:
-    - sbt "Test / compile"
-
-test:
-  script:
-    - sbt test
