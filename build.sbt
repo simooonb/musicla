@@ -37,9 +37,17 @@ libraryDependencies ++= Seq(
 )
 
 Compile / mainClass := Some("bar.simon.learn.music.Main")
+Compile / herokuJdkVersion := "11"
+Compile / herokuAppName := "musicla"
+
+// todo: add java opts and move env variables to a secret place
+
+Compile / herokuProcessTypes := Map(
+  "web" -> "target/universal/stage/bin/musicla -Dhttp.port=$PORT"
+)
 
 enablePlugins(JavaAppPackaging)
 enablePlugins(DockerPlugin)
 enablePlugins(AshScriptPlugin)
 
-dockerBaseImage := "adoptopenjdk/openjdk14:jre-14.0.2_12"
+dockerBaseImage := "openjdk:jre-alpine"
