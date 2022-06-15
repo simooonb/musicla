@@ -19,7 +19,6 @@ final class QuestionsController[F[_]](askQuestionUseCase: AskQuestionUseCase)(im
   override def routes: HttpRoutes[F] =
     randomAnyQuestionRoute <+>
       randomScaleQuestionRoute <+>
-      randomIntervalQuestionRoute <+>
       scaleNotesQuestionRoute <+>
       scaleFormulaQuestionRoute <+>
       scaleHarmonizationQuestionRoute <+>
@@ -30,9 +29,6 @@ final class QuestionsController[F[_]](askQuestionUseCase: AskQuestionUseCase)(im
 
   private def randomScaleQuestionRoute: HttpRoutes[F] =
     randomQuestionRoute(randomScaleQuestionEndpoint, askQuestionUseCase.anyScale)
-
-  private def randomIntervalQuestionRoute: HttpRoutes[F] =
-    randomQuestionRoute(randomIntervalQuestionEndpoint, askQuestionUseCase.anyInterval)
 
   private def scaleNotesQuestionRoute: HttpRoutes[F] =
     randomQuestionRoute(scaleNotesQuestionEndpoint, askQuestionUseCase.askScaleNotes)

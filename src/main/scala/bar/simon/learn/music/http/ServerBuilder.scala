@@ -7,14 +7,16 @@ import bar.simon.learn.music.http.questions.QuestionsController
 import cats.effect._
 import cats.implicits._
 import net.logstash.logback.marker.Markers.append
-import org.http4s.HttpApp
+import org.http4s._
 import org.http4s.implicits._
 import org.http4s.server.jetty._
-import org.http4s.server.middleware.Logger
+import org.http4s.server.middleware._
 import org.http4s.server.{Router, Server}
 import org.scalacheck.Gen
 import org.scalacheck.rng.Seed
 import org.slf4j.LoggerFactory
+
+import scala.concurrent.duration._
 
 final class ServerBuilder[F[_]](implicit timer: Timer[F], cs: ContextShift[F], ce: ConcurrentEffect[F]) {
   private val logger = LoggerFactory.getLogger(getClass)
@@ -44,10 +46,21 @@ final class ServerBuilder[F[_]](implicit timer: Timer[F], cs: ContextShift[F], c
       "/api/answers/verify" -> answerController.verifyAnswerRoute
     ).orNotFound
 
+    val routerWithCors = CORS.policy.withAllowOriginAll // todo: change with url
+//      .withAllowOriginHost(
+//        Set(
+//          Origin.Host(Uri.Scheme.https, Uri.RegName("localhost"), None),
+//          Origin.Host(Uri.Scheme.http, Uri.RegName("http://localhost"), None)
+//        )
+//      )
+      .withAllowCredentials(false)
+      .withMaxAge(1.day)
+      .apply(router)
+
     Logger.httpApp(
       logHeaders = true,
       logBody = true
-    )(router)
+    )(routerWithCors)
   }
 
   private def buildServer(

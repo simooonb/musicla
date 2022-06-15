@@ -19,7 +19,7 @@ object ServerConfiguration {
 
   def load[F[_]](implicit F: Sync[F]): Resource[F, ServerConfiguration] = {
     val config = F  .fromEither(ConfigSource.default.load[ServerConfiguration].leftMap(ConfigReaderException(_)))
-    Resource.liftF(config)
+    Resource.eval(config)
   }
 
   implicit final val show: Show[ServerConfiguration] = pprint.apply(_).render

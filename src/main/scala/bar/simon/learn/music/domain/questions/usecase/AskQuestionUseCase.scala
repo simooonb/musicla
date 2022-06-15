@@ -2,7 +2,12 @@ package bar.simon.learn.music.domain.questions.usecase
 
 import bar.simon.learn.music.domain.questions.Generators._
 import bar.simon.learn.music.domain.questions.Question
-import bar.simon.learn.music.domain.questions.Question.{IntervalBetweenNotes, ScaleFormula, ScaleHarmonization, ScaleNotes}
+import bar.simon.learn.music.domain.questions.Question.{
+  IntervalBetweenNotes,
+  ScaleFormula,
+  ScaleHarmonization,
+  ScaleNotes
+}
 import org.scalacheck.Gen
 import org.scalacheck.rng.Seed
 import org.slf4j.{Logger, LoggerFactory}
@@ -18,9 +23,6 @@ final class AskQuestionUseCase(parameters: Gen.Parameters, initialSeed: Seed) {
   def anyScale(numberOfQuestions: Int): List[Question] =
     generateQuestions(numberOfQuestions, scaleQuestion)
 
-  def anyInterval(numberOfQuestions: Int): List[Question] =
-    generateQuestions(numberOfQuestions, intervalQuestion)
-
   def askIntervalBetweenNotes(numberOfQuestions: Int): List[IntervalBetweenNotes] =
     generateQuestions(numberOfQuestions, intervalBetweenNotes)
 
@@ -35,6 +37,7 @@ final class AskQuestionUseCase(parameters: Gen.Parameters, initialSeed: Seed) {
 
   private def generateQuestions[Q](numberOfQuestions: Int, questionGen: Gen[Q]): List[Q] = {
     seed = seed.next
-    Gen.listOfN(numberOfQuestions, questionGen).pureApply(parameters, seed)
+    // using set to generate a distinct list of questions
+    Gen.containerOfN[Set, Q](numberOfQuestions, questionGen).pureApply(parameters, seed).toList
   }
 }

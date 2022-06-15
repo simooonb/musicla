@@ -3,7 +3,7 @@ package bar.simon.learn.music.domain.questions
 import bar.simon.learn.music.domain.music.Alteration.{Flat, Sharp}
 import bar.simon.learn.music.domain.music.Scale.{Major, Minor}
 import bar.simon.learn.music.domain.music.{Note, NoteName, Scale}
-import bar.simon.learn.music.domain.questions.Question.{IntervalBetweenNotes, ScaleFormula, ScaleHarmonization, ScaleNotes, intervalQuestions, scaleQuestions}
+import bar.simon.learn.music.domain.questions.Question._
 import org.scalacheck.Gen
 
 object Generators {
@@ -26,24 +26,20 @@ object Generators {
       scale    <- scale
     } yield question(scale)
 
-  def intervalQuestion: Gen[Question] =
-    for {
-      question <- Gen.oneOf(intervalQuestions)
-      left     <- note
-      right    <- note
-    } yield question(left, right)
-
   def anyQuestion: Gen[Question] =
     for {
       askScale <- Gen.prob(0.5)
-      question <- if (askScale) scaleQuestion else intervalQuestion
+      question <- if (askScale) scaleQuestion else intervalBetweenNotes
     } yield question
 
   def intervalBetweenNotes: Gen[IntervalBetweenNotes] =
     for {
       left  <- note
       right <- note
-    } yield IntervalBetweenNotes(left, right)
+      if left.label != right.label
+      intervalQuestion = IntervalBetweenNotes(left, right)
+      if intervalQuestion.answer.interval.nonEmpty
+    } yield intervalQuestion
 
   def scaleNotes: Gen[ScaleNotes] = scale.map(ScaleNotes)
 
